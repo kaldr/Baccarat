@@ -4,7 +4,7 @@ from .Player import Player
 import functools
 print = functools.partial(print, flush=True)
 
-class Game:
+class Game(Baccarat):
 
     def __init__(self,players=[]):
         Baccarat.__init__(self)
