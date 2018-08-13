@@ -1,0 +1,10 @@
+.Trash*
+Logs/
+*/.ipynb_checkpoints
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+Untitled*
+.DS_Store
+Export/
+Data/
