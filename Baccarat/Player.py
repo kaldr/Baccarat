@@ -8,31 +8,28 @@ class Player:
 
     # rankToStop=5000
     lose_time_upper = 70
+    # 赢了3次，包括第一个
+    # 之前赢得次数会浪费了，输了往后退
+    # 输了3次往后加，净赢3
     triple_ranks = [
-        50,
-        100,
-        150,
-        200,
-        250,
-        300,
-        400,
-        500,
-        600,
-        700,
-        800,
-        900,
-        1000,
-        1200,
-        1400,
-        1600,
-        1800,
-        2000,
-        2300,
-        2600,
-        2900,
-        3200,
-        3600,
-        4000
+       100,
+       200,
+       300,
+       400,
+       600,
+       800,
+       1000,
+       1300,
+       1600,
+       1900,
+       2300,
+       2700,
+       3100,
+       3600,
+       4100,
+       4600,
+       5200,
+       5800
     ]
     ranks = [
         50,
@@ -109,10 +106,10 @@ class Player:
     ]
 
     def __init__(self, name='李妙', money=10000, rule=0):
-        self.differ = 5000
-        self.differ_span = 5000
-        self.loss = -3000
-        self.lossspan = -1000
+        self.differ = 30000
+        self.differ_span = 30000
+        self.loss = -10000
+        self.lossspan = -10000
         self.result_history = []
         self.stop = 0
         self.current_stake = 0
@@ -123,12 +120,17 @@ class Player:
         self.current_money = money
         self.name = name
         self.currentRank = -1
+        self.win_count=0
+        self.loose_count=0
         self.lose_time = 0
         self.current_level_win_or_loose = 0
-
+        self.last_level_loose=0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
+        if rule==2:
+            self.current_stake_money=100
+            self.current_stake=1
         else:
             self.setNextMoneyAndStakeFromRuleRandom()
 
@@ -139,6 +141,7 @@ class Player:
             result['money_before'] = self.current_money
             result['change'] = 0
             if result['win']:
+                self.win_count+=1
                 if self.current_stake == 1:
                     change = self.current_stake_money * \
                         (1 - Baccarat.commission)
@@ -148,6 +151,7 @@ class Player:
                 self.current_money += change
             else:
                 if result['winner_id'] != 3:
+                    self.loose_count+=1
                     result['change'] = "-%s" % self.current_stake_money
                     self.current_money -= self.current_stake_money
             result['money'] = self.current_money
@@ -191,16 +195,27 @@ class Player:
         if self.current_money - self.money > self.differ:
             self.currentRank = 0
             result['info'] = '赢到了%s，停止' % self.differ
-            self.stop = 1
-        # 如果赔了相应的钱，连续输超过n轮，从第一级开始打
-        if self.current_money - self.money < self.loss:
-            self.currentRank = 0
-            self.stop = 1
-            self.loss += self.lossspan
+            self.differ+=self.differ_span
+        
+        if self.currentRank==len(self.triple_ranks)-1:
+            if result['win']:
+                self.last_level_loose-=1
+            elif result['round_id']!=3:
+                self.last_level_loose+=1
+            if self.last_level_loose==3:
+                self.stop=1
+                result['info']='最后一档连输3次，停止'
 
-        if self.lose_time > self.lose_time_upper:
-            self.currentRank = 0
-            result['info'] = '输超过了%s次，重新开始打' % self.lose_time_upper
+
+        # 如果赔了相应的钱，连续输超过n轮，从第一级开始打
+        # if self.current_money - self.money < self.loss:
+        #     self.currentRank = 0
+        #     self.stop = 1
+        #     self.loss += self.lossspan
+
+        # if self.lose_time > self.lose_time_upper:
+        #     self.currentRank = 0
+        #     result['info'] = '输超过了%s次，重新开始打' % self.lose_time_upper
             # if self.current_stake==1:
             #     self.current_stake=2
             # elif self.current_stake==2:
@@ -220,6 +235,16 @@ class Player:
 
     def setNextMoneyAndStakeFromRuleComplicated(self, result={}):
         result['info'] = '没有赢或者输3次，继续打这一等级'
+        # if self.currentRank==len(self.triple_ranks)-1:
+        #     if result['win']:
+        #         self.last_level_loose-=1
+        #     elif result['round_id']!=3:
+        #         self.last_level_loose+=1
+        #     if self.last_level_loose==3:
+        #         self.stop=1
+        #         result['info']='最后一档连输3次，停止'
+        #         return
+        
         if result['win']:
             self.current_level_win_or_loose += 1
         else:
@@ -249,7 +274,10 @@ class Player:
             result['info'] = '赢到了%s，重新开始打' % self.differ
             self.differ += self.differ_span
             self.currentRank = 0
-
+        if self.current_money-self.money<self.loss:
+            result['info']='输到了%s，重新开始打'%self.loss
+            self.loss+=self.lossspan
+            self.currentRank=0
         self.current_stake_money = self.triple_ranks[self.currentRank]
 
     def exportToExcel(self, filename='玩家', folder=False):

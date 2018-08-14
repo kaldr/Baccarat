@@ -27,8 +27,8 @@ class Game:
             else:
                 win = False
                 winT = "输"
-            player.exportToExcel(filename='玩家%s_%s_%s' %
-                                 (player.name, (idx), winT), folder=False)
+            player.exportToExcel(filename='玩家%s_%s' %
+                                 (player.name, (idx)), folder=False)
 
 
 totals = [0, 0]
@@ -36,7 +36,7 @@ totalWin = [0, 0]
 l = 1
 for i in range(l):
     players = []
-    player1 = Player('三重交叉', money=310000, rule=2)
+    player1 = Player('三重交叉', money=100000, rule=2)
     # player2=Player('随机',money=310000,)
     players.append(player1)
     # players.append(player2)
@@ -45,9 +45,12 @@ for i in range(l):
     s = "%d\t" % (i + 1)
     j = 0
     differ = 0
+    win_count=0
+    loose_count=0
     for player in players:
         differ = player.current_money - player.money
-
+        win_count+=player.win_count
+        loose_count+=player.loose_count
         result = 0
         if differ > 0:
             result = 1
@@ -64,7 +67,7 @@ for i in range(l):
         j += 1
 
     G.export_player_history_for_a_game(
-        "%d_%d" % (i, differ), folder="%d" % (i + 1))
+        "%d_利润%d_赢%d_输%d" % (i, differ,win_count,loose_count), folder="%d" % (i + 1))
     # print(s)
 print(totals)
 print(totalWin)

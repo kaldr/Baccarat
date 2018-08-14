@@ -5,17 +5,18 @@ from random import randrange
 class Baccarat:
 
     commission = 0.05
-    cards = Card().decks_of_cards(deck=8, shuffle=True, Joker=False)
     stakeType = ['庄', '闲', '和', '对']
-    drawedCards = []
-    history_rounds = []
-    current_round = 0
-    current_xian_cards = []
-    current_zhuang_cards = []
-    current_suppliment_cards = {}
-    current_result = 0
 
     def __init__(self):
+        self.cards = Card().decks_of_cards(deck=8, shuffle=True, Joker=False)
+        
+        self.drawedCards = []
+        self.history_rounds = []
+        self.current_round = 0
+        self.current_xian_cards = []
+        self.current_zhuang_cards = []
+        self.current_suppliment_cards = {}
+        self.current_result = 0
         self.rounds = self.setRounds()
 
     def setRounds(self):
