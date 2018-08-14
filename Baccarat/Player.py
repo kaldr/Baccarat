@@ -137,19 +137,19 @@ class Player:
             result['stake'] = Baccarat.stakeType[self.current_stake - 1],
             result['stake_money'] = self.current_stake_money
             result['money_before'] = self.current_money
+            result['change'] = 0
             if result['win']:
                 if self.current_stake == 1:
                     change = self.current_stake_money * \
                         (1 - Baccarat.commission)
-                else:
+                elif self.current_stake == 2:
                     change = self.current_stake_money
                 result['change'] = "+%s" % change
                 self.current_money += change
-
             else:
-
-                result['change'] = "-%s" % self.current_stake_money
-                self.current_money -= self.current_stake_money
+                if result['winner_id'] != 3:
+                    result['change'] = "-%s" % self.current_stake_money
+                    self.current_money -= self.current_stake_money
             result['money'] = self.current_money
             result['profit'] = self.current_money - self.money
             self.result_history.append(result)
@@ -223,7 +223,10 @@ class Player:
         if result['win']:
             self.current_level_win_or_loose += 1
         else:
-            self.current_level_win_or_loose -= 1
+            if result["winner_id"] != 3:
+                self.current_level_win_or_loose -= 1
+            else:
+                result['info'] = '和，当做没有发生过'
 
         if self.current_level_win_or_loose == -3:
             self.current_level_win_or_loose = 0
