@@ -2,6 +2,7 @@ from .Baccarat import Baccarat
 import random
 import xlwt
 import os
+from .PlayerExporter import PlayerExporter
 
 
 class Player:
@@ -9,115 +10,35 @@ class Player:
     # rankToStop=5000
     lose_time_upper = 70
     triple_ranks = [
-        50,
-        100,
-        150,
-        200,
-        250,
-        300,
-        400,
-        500,
-        600,
-        700,
-        800,
-        900,
-        1000,
-        1200,
-        1400,
-        1600,
-        1800,
-        2000,
-        2300,
-        2600,
-        2900,
-        3200,
-        3600,
-        4000
+        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200,
+        1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3600, 4000
     ]
     ranks = [
-        50,
-        70,
-        100,
-        130,
-        150,
-        180,
-        200,
-        230,
-        250,
-        280,
-        300,
-        330,
-        350,
-        380,
-        400,
-        430,
-        450,
-        480,
-        500,
-        550,
-        600,
-        650,
-        700,
-        750,
-        800,
-        850,
-        900,
-        950,
-        1000,
-        1100,
-        1200,
-        1300,
-        1400,
-        1500,
-        1600,
-        1700,
-        1800,
-        1900,
-        2000,
-        2200,
-        2400,
-        2600,
-        2800,
-        3000,
-        3200,
-        3400,
-        3600,
-        3800,
-        4000,
-        4500,
-        5000,
-        5500,
-        6000,
-        6500,
-        7000,
-        7500,
-        8000,
-        8500,
-        9000,
-        9500,
-        10000,
-        11000,
-        12000,
-        13000,
-        14000,
-        15000,
-        16000,
-        17000,
-        18000,
-        19000,
-        20000
+        50, 70, 100, 130, 150, 180, 200, 230, 250, 280, 300, 330, 350, 380,
+        400, 430, 450, 480, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950,
+        1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200,
+        2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4500, 5000, 5500,
+        6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 11000, 12000,
+        13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000
     ]
 
-    def __init__(self, name='李妙', money=10000, rule=0):
-        self.differ = 5000
-        self.differ_span = 5000
-        self.loss = -3000
-        self.lossspan = -1000
+    def __init__(self,
+                 name='李妙',
+                 money=10000,
+                 rule=0,
+                 rule_2_stake_reverse=False,
+                 rule_1_stake_reverse=False):
+
+        self.differ = 10000
+        self.rule_2_stake_reverse = rule_2_stake_reverse
+        self.rule_1_stake_reverse = rule_1_stake_reverse
+        self.differ_span = 10000
+        self.loss = -110000
+        self.lossspan = -110000
         self.result_history = []
         self.stop = 0
         self.current_stake = 0
         self.current_stake_money = 0
-        self.current_money = 0
         self.rule = rule
         self.money = money
         self.current_money = money
@@ -125,33 +46,58 @@ class Player:
         self.currentRank = -1
         self.lose_time = 0
         self.current_level_win_or_loose = 0
-
+        self.win_or_lose = 0
+        self.baccarat_id = 0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
+            if self.rule_1_stake_reverse:
+                self.current_stake = 2
+        if rule == 2:
+            self.current_stake = 1
+            if self.rule_2_stake_reverse:
+                self.current_stake = 2
+            self.current_stake_money = 50
         else:
             self.setNextMoneyAndStakeFromRuleRandom()
+        self.exporter = PlayerExporter(self)
+
+    def exportStatistic(self):
+        pass
+
+    def round_worksheet(self):
+        pass
+
+    def round_worksheet_chart(self):
+        chars = '○●'
+        pass
 
     def set_current_round_result(self, result):
         if not self.stop:
+            if result['round_id'] == 1:
+                self.baccarat_id += 1
+            result['baccarat_id'] = self.baccarat_id
             result['stake'] = Baccarat.stakeType[self.current_stake - 1],
             result['stake_money'] = self.current_stake_money
             result['money_before'] = self.current_money
             result['change'] = 0
             if result['win']:
+                self.win_or_lose += 1
                 if self.current_stake == 1:
                     change = self.current_stake_money * \
                         (1 - Baccarat.commission)
                 elif self.current_stake == 2:
                     change = self.current_stake_money
-                result['change'] = "+%s" % change
+                result['change'] = change
                 self.current_money += change
             else:
                 if result['winner_id'] != 3:
-                    result['change'] = "-%s" % self.current_stake_money
+                    self.win_or_lose -= 1
+                    result['change'] = self.current_stake_money * (-1)
                     self.current_money -= self.current_stake_money
             result['money'] = self.current_money
             result['profit'] = self.current_money - self.money
+            result['win_or_lose'] = self.win_or_lose
             self.result_history.append(result)
             result['info'] = ''
             self.setNextMoneyAndStake(result)
@@ -169,7 +115,6 @@ class Player:
         self.CrossStakeMoney(result)
 
     def CrossStakeMoney(self, result={}):
-
         if result:
             if not result['win']:
                 self.lose_time += 1
@@ -184,29 +129,31 @@ class Player:
             # 遍历完了，从第一级开始打
         else:
             self.currentRank += 1
+
         if self.currentRank == len(self.ranks):
             self.currentRank = 0
             result['info'] = '遍历完了，从最开始重新打'
         # 如果赚到了一定量的钱，从第一级开始打
         if self.current_money - self.money > self.differ:
             self.currentRank = 0
-            result['info'] = '赢到了%s，停止' % self.differ
-            self.stop = 1
-        # 如果赔了相应的钱，连续输超过n轮，从第一级开始打
+            self.differ += self.differ_span
+            result['info'] = '赢到了%s，重新开始打' % self.differ
+            # self.stop = 1
+        # 如果赔了相应的钱，从第一级开始打
         if self.current_money - self.money < self.loss:
             self.currentRank = 0
             self.stop = 1
             self.loss += self.lossspan
 
-        if self.lose_time > self.lose_time_upper:
-            self.currentRank = 0
-            result['info'] = '输超过了%s次，重新开始打' % self.lose_time_upper
-            # if self.current_stake==1:
-            #     self.current_stake=2
-            # elif self.current_stake==2:
-            #     self.current_stake=1
+        # if self.lose_time > self.lose_time_upper:
+        #     self.currentRank = 0
+        #     result['info'] = '输超过了%s次，重新开始打' % self.lose_time_upper
+        # if self.current_stake==1:
+        #     self.current_stake=2
+        # elif self.current_stake==2:
+        #     self.current_stake=1
 
-            # if self.current_stake_money>5000:
+        # if self.current_stake_money>5000:
         #     self.currentRank=0
         self.current_stake_money = self.ranks[self.currentRank]
 
@@ -215,6 +162,12 @@ class Player:
             self.current_stake = 2
         elif self.current_stake == 2:
             self.current_stake = 1
+        if result:
+            if result['round_id'] == 1:
+                if self.rule_1_stake_reverse:
+                    self.current_stake = 2
+                else:
+                    self.current_stake = 1
 
         self.CrossStakeMoney(result)
 
@@ -242,13 +195,22 @@ class Player:
             self.currentRank = 0
         if self.currentRank == -1:
             self.currentRank = 0
+
         if result['winner_id'] != 3:
             self.current_stake = result['winner_id']
-
+            if self.rule_2_stake_reverse:
+                if result['winner_id'] == 1:
+                    self.current_stake = 2
+                else:
+                    self.current_stake = 1
         if self.current_money - self.money > self.differ:
             result['info'] = '赢到了%s，重新开始打' % self.differ
             self.differ += self.differ_span
             self.currentRank = 0
+        if self.current_money - self.money < self.loss:
+            self.currentRank = 0
+            self.loss += self.lossspan
+            result['info'] = '亏了%s，重新打' % self.loss
 
         self.current_stake_money = self.triple_ranks[self.currentRank]
 
@@ -256,6 +218,7 @@ class Player:
         workbook = xlwt.Workbook(encoding='utf-8')
         data = self.result_history
         header = {
+            'baccarat_id': "局",
             'round_id': "轮",
             'zhuang': "庄牌",
             "zhuang_point": "庄家点数",
@@ -265,11 +228,13 @@ class Player:
             'stake': "押注",
             "change": "本轮变化",
             'win': "本轮输赢",
+            'win_or_lose': "净",
             'stake_money': "押注金额",
-            "money_before": "押注前金额",
-            'money': "本轮后金额",
+            # "money_before": "押注前金额",
+            # 'money': "本轮后金额",
             'profit': "总盈利",
-            'info': "决策"}
+            'info': "决策"
+        }
         sheet = workbook.add_sheet(filename, cell_overwrite_ok=True)
         col = 0
         row = 0

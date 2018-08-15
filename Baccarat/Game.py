@@ -27,44 +27,70 @@ class Game:
             else:
                 win = False
                 winT = "输"
-            player.exportToExcel(filename='玩家%s_%s_%s' %
-                                 (player.name, (idx), winT), folder=False)
+            player.exporter.export_player()
 
 
-totals = [0, 0]
-totalWin = [0, 0]
-l = 1
-for i in range(l):
-    players = []
-    player1 = Player('三重交叉', money=310000, rule=2)
-    # player2=Player('随机',money=310000,)
-    players.append(player1)
-    # players.append(player2)
-    G = Game(players)
+def play(playTime):
+    totals = [0, 0]
+    totalWin = [0, 0]
+    l = 1
+    profit = 0
+    for i in range(l):
+        player1 = Player(
+            '三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
+        player2 = Player(
+            '三次交叉与上一轮相同', money=100000, rule=2, rule_2_stake_reverse=False)
+        player3 = Player(
+            '交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
+        player4 = Player(
+            '交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
+        players = [
+            # player1,
+            player2
+            # player3,
+            # player4
+        ]
 
-    s = "%d\t" % (i + 1)
-    j = 0
-    differ = 0
-    for player in players:
-        differ = player.current_money - player.money
+        # player2=Player('随机',money=310000,)
 
-        result = 0
-        if differ > 0:
-            result = 1
+        # players.append(player2)
+        G = Game(players)
 
-        if j % 2 == 0:
-            totals[0] += differ
+        s = "%d\t" % (i + 1)
+        j = 0
+        differ = 0
+        for player in players:
+            differ = player.current_money - player.money
+
+            result = 0
             if differ > 0:
-                totalWin[0] += 1
-        else:
-            totals[1] += differ
-            if differ > 0:
-                totalWin[1] += 1
-        s += '%s\t%d\t%s\t' % (player.name, differ, result)
-        j += 1
+                result = 1
 
-    G.export_player_history_for_a_game(
-        "%d_%d" % (i, differ), folder="%d" % (i + 1))
-    # print(s)
-print(totals)
-print(totalWin)
+            if j % 2 == 0:
+                totals[0] += differ
+                if differ > 0:
+                    totalWin[0] += 1
+            else:
+                totals[1] += differ
+                if differ > 0:
+                    totalWin[1] += 1
+            s += '%s\t%d\t%s\t' % (player.name, differ, result)
+            j += 1
+            profit += differ
+        G.export_player_history_for_a_game()
+        # print(s)
+    print('每个玩家盈利：')
+    print(totals)
+
+    print('本次盈利：%s' % profit)
+    print("----------------------")
+    return profit
+
+    # print(totalWin)
+
+
+playTime = 1
+play_profit = 0
+for i in range(playTime):
+    play_profit += play(i)
+print("%s次模拟玩，每次模拟玩6000-7000次押注共盈利%s" % (playTime, play_profit))
