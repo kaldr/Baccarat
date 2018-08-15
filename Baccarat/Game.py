@@ -6,7 +6,7 @@ print = functools.partial(print, flush=True)
 
 
 class Game:
-    roundLimit = 100
+    roundLimit = 300
 
     def __init__(self, players=[]):
         self.players = players

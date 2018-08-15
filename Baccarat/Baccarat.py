@@ -4,7 +4,7 @@ from random import randrange
 
 class Baccarat:
 
-    commission = 0.05
+    commission = 0
 
     stakeType = ['庄', '闲', '和', '对']
 
