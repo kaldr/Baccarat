@@ -2,6 +2,7 @@ import xlsxwriter
 
 
 class PlayerExporter:
+
     def __init__(self, player):
         # 玩家
         self.player = player
@@ -70,42 +71,42 @@ class PlayerExporter:
 
     def format_history_sheet(self, sheet, rowCount):
         sheet.conditional_format(
-            "G1:H%d" % rowCount, {
+            "H1:I%d" % rowCount, {
                 'type': 'text',
                 'criteria': 'begins with',
                 'value': u'庄',
                 'format': self.formats['zhuang']
             })
         sheet.conditional_format(
-            "G1:H%d" % rowCount, {
+            "H1:I%d" % rowCount, {
                 'type': 'text',
                 'criteria': 'begins with',
                 'value': u'闲',
                 'format': self.formats['xian']
             })
         sheet.conditional_format(
-            "I1:K%d" % rowCount, {
+            "J1:L%d" % rowCount, {
                 'type': 'cell',
                 'criteria': ">",
                 'value': '0',
                 'format': self.formats['win']
             })
         sheet.conditional_format(
-            "I1:K%d" % rowCount, {
+            "J1:L%d" % rowCount, {
                 'type': 'cell',
                 'criteria': "<",
                 'value': '0',
                 'format': self.formats['lose']
             })
         sheet.conditional_format(
-            "M1:M%d" % rowCount, {
+            "N1:N%d" % rowCount, {
                 'type': 'cell',
                 'criteria': ">",
                 'value': '0',
                 'format': self.formats['win']
             })
         sheet.conditional_format(
-            "M1:M%d" % rowCount, {
+            "N1:N%d" % rowCount, {
                 'type': 'cell',
                 'criteria': "<",
                 'value': '0',
