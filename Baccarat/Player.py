@@ -12,7 +12,8 @@ class Player:
     triple_ranks = [
         50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200,
         1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400,
-        7100, 8000, 9000, 10000, 11500, 13000, 14500, 17000, 19000, 21000, 23000, 25500, 28000
+        7100, 8000, 9000, 10000, 11500, 13000, 14500, 17000, 19000, 21000,
+        23000, 25500, 28000
     ]
     ranks = [
         50, 70, 100, 130, 150, 180, 200, 230, 250, 280, 300, 330, 350, 380,
@@ -129,7 +130,7 @@ class Player:
         #     self.currentRank = 0
         #     self.differ += self.differ_span
         #     result['info'] = '赢到了%s，重新开始打' % self.differ
-            # self.stop = 1
+        # self.stop = 1
         # 如果赔了相应的钱，从第一级开始打
         # if self.current_money - self.money < self.loss:
         #     self.currentRank = 0
@@ -166,6 +167,40 @@ class Player:
 
         self.CrossStakeMoney(result)
 
+    def setNextLevelWhenLevelWinOrLose(self, result):
+        if self.current_level_win_or_loose == -3:
+            self.current_level_win_or_loose = 0
+            self.currentRank += 1
+            if self.currentRank == len(self.triple_ranks):
+                self.stop = 1
+                result['info'] = '最后一级输了3次，停止'
+            else:
+                result['info'] = '输了3次，打下一级'
+
+        if self.current_level_win_or_loose == 3:
+            self.current_level_win_or_loose = 0
+            self.currentRank -= 1
+            result['info'] = '赢了3次，打上一级'
+
+    def setNextLevelWhenTotalWinOrLose(self, result):
+        if self.win_or_lose >= 0:
+            # self.current_level_win_or_loose = 0
+            self.currentRank = 0
+            result['info'] = '没输，打最低级'
+        else:
+            lose_time = -self.win_or_lose
+            if lose_time % 3 == 0:
+                self.currentRank = lose_time // 3
+                if self.currentRank >= len(self.triple_ranks):
+                    self.stop = 1
+                    result['info'] = '爆了'
+                else:
+                    result['info'] = '输了%d次，打%d级' % (lose_time,
+                                                     self.currentRank)
+            else:
+                result['info'] = '净输了%d次，仍然打%d级' % (lose_time,
+                                                    self.currentRank)
+
     def setNextMoneyAndStakeFromRuleComplicated(self, result={}):
         result['info'] = '没有赢或者输3次，继续打这一等级'
         if result['win']:
@@ -176,33 +211,8 @@ class Player:
             else:
                 result['info'] = '和，当做没有发生过'
 
-        # if self.current_level_win_or_loose == -3:
-        #     self.current_level_win_or_loose = 0
-        #     self.currentRank += 1
-        #     if self.currentRank == len(self.triple_ranks):
-        #         self.stop = 1
-        #         result['info'] = '最后一级输了3次，停止'
-        #     else:
-        #         result['info'] = '输了3次，打下一级'
-
-        # if self.current_level_win_or_loose == 3:
-        #     self.current_level_win_or_loose = 0
-        #     self.currentRank -= 1
-        #     result['info'] = '赢了3次，打上一级'
-
-        if self.win_or_lose == -3:
-            # self.current_level_win_or_loose = 0
-            self.currentRank += 1
-            if self.currentRank == len(self.triple_ranks):
-                self.stop = 1
-                result['info'] = '最后一级输了3次，停止'
-            else:
-                result['info'] = '输了3次，打下一级'
-
-        if self.win_or_lose == 3:
-            # self.current_level_win_or_loose = 0
-            self.currentRank -= 1
-            result['info'] = '赢了3次，打上一级'
+        # self.setNextLevelWhenLevelWinOrLose(result)
+        self.setNextLevelWhenTotalWinOrLose(result)
 
         # if self.currentRank == len(self.triple_ranks):
         #     self.currentRank = 0
@@ -281,3 +291,6 @@ class Player:
             filepath = filepath + filename + ".xls"
 
         workbook.save(filepath.encode('utf8'))
+
+
+print("全输掉，成本是：%d" % (sum(Player.triple_ranks) * 3))
