@@ -7,7 +7,7 @@ print = functools.partial(print, flush=True)
 
 class Game:
     roundLimit = 1000  # 70000次押注为一个excel
-    roundLimit = 50  # 7000次押注为一个excel
+    roundLimit = 100  # 7000次押注为一个excel
 
     def __init__(self, players=[]):
         self.players = players
@@ -45,11 +45,15 @@ def play(playTime):
             '交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
         player4 = Player(
             '交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
+        player5 = Player(
+            '150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
+
         players = [
             # player1,
-            player2
+            # player2,
             # player3,
-            # player4
+            # player4,
+            player5
         ]
 
         # player2=Player('随机',money=310000,)
@@ -92,7 +96,7 @@ def play(playTime):
 
 play_win = 0
 play_lose = 0
-playTime = 5
+playTime = 40
 play_profit = 0
 for i in range(playTime):
     current = play(i)
@@ -104,4 +108,4 @@ for i in range(playTime):
     print('总盈利:%s' % play_profit)
 print("%s次模拟玩，每次模拟玩约%d次押注共盈利%s，赢%d次，输%d次，赢输比%.1f%%" %
       (playTime, Game.roundLimit * 70, play_profit, play_win, play_lose,
-       play_win / play_lose * 100.0))
+       play_win / (play_lose + 0.001) * 100.0))

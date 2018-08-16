@@ -38,6 +38,7 @@ class Player:
         self.loss = -110000
         self.lossspan = -110000
         self.result_history = []
+        self.zero_level_win = 0
         self.stop = 0
         self.current_stake = 0
         self.current_stake_money = 0
@@ -45,11 +46,12 @@ class Player:
         self.money = money
         self.current_money = money
         self.name = name
-        self.currentRank = -1
+        self.currentRank = 0
         self.lose_time = 0
         self.current_level_win_or_loose = 0
         self.win_or_lose = 0
         self.baccarat_id = 0
+        self.initial_rank = 0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
@@ -60,6 +62,12 @@ class Player:
             if self.rule_2_stake_reverse:
                 self.current_stake = 2
             self.current_stake_money = 50
+        if rule == 3:
+            self.differ = 3000
+            self.currentRank = 2
+            self.differ_span = 3000
+            self.initial_rank = 2
+            self.current_stake_money = 150
         else:
             self.setNextMoneyAndStakeFromRuleRandom()
         self.exporter = PlayerExporter(self)
@@ -97,7 +105,7 @@ class Player:
     def setNextMoneyAndStake(self, result={}):
         if self.rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake(result)
-        elif self.rule == 2:
+        elif self.rule == 2 or self.rule == 3:
             self.setNextMoneyAndStakeFromRuleComplicated(result)
         else:
             self.setNextMoneyAndStakeFromRuleRandom(result)
@@ -182,19 +190,44 @@ class Player:
             self.currentRank -= 1
             result['info'] = '赢了3次，打上一级'
 
-    def setNextLevelWhenTotalWinOrLose(self, result, cost_lose_restart=False):
+    def setNextLevelWhenTotalWinOrLose(self,
+                                       result,
+                                       cost_lose_restart=False,
+                                       top_restart=True):
+        if top_restart or self.rule == 3:
+            if self.current_money - self.money >= self.differ:
+                result['info'] = '赢了%d重新打' % self.differ
+                self.differ += self.differ_span
+                self.currentRank = self.initial_rank
+                return
+            # if self.win_or_lose < -50:
+            #     self.stop = 1
+            #     return
         if self.win_or_lose >= 0:
-            # self.current_level_win_or_loose = 0
-            self.currentRank = 0
-            result['info'] = '没输，打最低级'
+            if self.rule == 3:
+                if self.win_or_lose == 3:
+                    self.currentRank = 1
+                elif self.win_or_lose == 6:
+                    self.currentRank = 0
+                elif self.win_or_lose == 9:
+                    self.currentRank = 2
+                    self.win_or_lose = 0
+                # self.current_level_win_or_loose = 0
+            elif self.rule == 2:
+                self.currentRank = self.initial_rank
+                result['info'] = '没输，打最低级'
         else:
+
             lose_time = -self.win_or_lose
             if lose_time % 3 == 0:
-                self.currentRank = lose_time // 3
-                if self.currentRank >= len(self.triple_ranks) / 2:
+                # if self.zero_level_win:
+                #     self.currentRank += lose_time // 3
+                # else:
+                self.currentRank = lose_time // 3 + self.initial_rank
+                if self.currentRank >= len(self.triple_ranks):
                     if cost_lose_restart:
                         self.win_or_lose = 0
-                        self.currentRank = 0
+                        self.currentRank = self.initial_rank
                         result['info'] = '爆了，重新开始打'
                     else:
                         self.stop = 1
@@ -223,8 +256,8 @@ class Player:
         #     self.currentRank = 0
         if self.currentRank == -1:
             self.currentRank = 0
-        if self.currentRank == len(self.triple_ranks):
-            self.currentRank -= 1
+        if self.currentRank >= len(self.triple_ranks):
+            self.currentRank = len(self.triple_ranks) - 1
         if result['winner_id'] != 3:
             self.current_stake = result['winner_id']
             if self.rule_2_stake_reverse:
