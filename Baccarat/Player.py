@@ -182,7 +182,7 @@ class Player:
             self.currentRank -= 1
             result['info'] = '赢了3次，打上一级'
 
-    def setNextLevelWhenTotalWinOrLose(self, result):
+    def setNextLevelWhenTotalWinOrLose(self, result, cost_lose_restart=False):
         if self.win_or_lose >= 0:
             # self.current_level_win_or_loose = 0
             self.currentRank = 0
@@ -191,9 +191,14 @@ class Player:
             lose_time = -self.win_or_lose
             if lose_time % 3 == 0:
                 self.currentRank = lose_time // 3
-                if self.currentRank >= len(self.triple_ranks):
-                    self.stop = 1
-                    result['info'] = '爆了'
+                if self.currentRank >= len(self.triple_ranks) / 2:
+                    if cost_lose_restart:
+                        self.win_or_lose = 0
+                        self.currentRank = 0
+                        result['info'] = '爆了，重新开始打'
+                    else:
+                        self.stop = 1
+                        result['info'] = '爆了停止'
                 else:
                     result['info'] = '输了%d次，打%d级' % (lose_time,
                                                      self.currentRank)

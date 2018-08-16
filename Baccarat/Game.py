@@ -6,7 +6,8 @@ print = functools.partial(print, flush=True)
 
 
 class Game:
-    roundLimit = 300
+    roundLimit = 1000  # 70000次押注为一个excel
+    roundLimit = 50  # 7000次押注为一个excel
 
     def __init__(self, players=[]):
         self.players = players
@@ -89,8 +90,18 @@ def play(playTime):
     # print(totalWin)
 
 
-playTime = 1
+play_win = 0
+play_lose = 0
+playTime = 5
 play_profit = 0
 for i in range(playTime):
-    play_profit += play(i)
-print("%s次模拟玩，每次模拟玩6000-7000次押注共盈利%s" % (playTime, play_profit))
+    current = play(i)
+    play_profit += current
+    if current > 0:
+        play_win += 1
+    else:
+        play_lose += 1
+    print('总盈利:%s' % play_profit)
+print("%s次模拟玩，每次模拟玩约%d次押注共盈利%s，赢%d次，输%d次，赢输比%.1f%%" %
+      (playTime, Game.roundLimit * 70, play_profit, play_win, play_lose,
+       play_win / play_lose * 100.0))
