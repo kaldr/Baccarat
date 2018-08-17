@@ -4,6 +4,8 @@ import xlwt
 import os
 from .PlayerExporter import PlayerExporter
 
+from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
+
 
 class Player:
 
@@ -29,8 +31,9 @@ class Player:
                  money=10000,
                  rule=0,
                  rule_2_stake_reverse=False,
-                 rule_1_stake_reverse=False):
-
+                 rule_1_stake_reverse=False,
+                 ruleObject={}):
+        self.ruleObject = ruleObject
         self.differ = 10000
         self.rule_2_stake_reverse = rule_2_stake_reverse
         self.rule_1_stake_reverse = rule_1_stake_reverse
@@ -52,22 +55,27 @@ class Player:
         self.win_or_lose = 0
         self.baccarat_id = 0
         self.initial_rank = 0
+        self.win_times = 0
+        self.lose_times = 0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
             if self.rule_1_stake_reverse:
                 self.current_stake = 2
-        if rule == 2:
+        elif rule == 2:
             self.current_stake = 1
             if self.rule_2_stake_reverse:
                 self.current_stake = 2
             self.current_stake_money = 50
-        if rule == 3:
+        elif rule == 3:
             self.differ = 3000
             self.currentRank = 2
             self.differ_span = 3000
             self.initial_rank = 2
             self.current_stake_money = 150
+        elif rule == 4:
+            (self.current_stake, self.current_stake_money
+             ) = self.ruleObject.getFirstStakeAndMoney()
         else:
             self.setNextMoneyAndStakeFromRuleRandom()
         self.exporter = PlayerExporter(self)
@@ -77,11 +85,13 @@ class Player:
             if result['round_id'] == 1:
                 self.baccarat_id += 1
             result['baccarat_id'] = self.baccarat_id
+            result['stake_id'] = self.current_stake
             result['stake'] = Baccarat.stakeType[self.current_stake - 1],
             result['stake_money'] = self.current_stake_money
             result['money_before'] = self.current_money
             result['change'] = 0
             if result['win']:
+                self.win_times += 1
                 self.win_or_lose += 1
                 if self.current_stake == 1:
                     change = self.current_stake_money * \
@@ -92,12 +102,16 @@ class Player:
                 self.current_money += change
             else:
                 if result['winner_id'] != 3:
+                    self.lose_times += 1
                     self.win_or_lose -= 1
                     result['change'] = self.current_stake_money * (-1)
                     self.current_money -= self.current_stake_money
             result['money'] = self.current_money
             result['profit'] = self.current_money - self.money
             result['win_or_lose'] = self.win_or_lose
+            result['win_times'] = self.win_times
+            result['lose_times'] = self.lose_times
+            result['win_lose_differ'] = self.win_times - self.lose_times
             self.result_history.append(result)
             result['info'] = ''
             self.setNextMoneyAndStake(result)
@@ -107,6 +121,9 @@ class Player:
             self.setNextMoneyAndStakeFromRuleCrossStake(result)
         elif self.rule == 2 or self.rule == 3:
             self.setNextMoneyAndStakeFromRuleComplicated(result)
+        elif self.rule == 4:
+            (self.current_stake, self.current_stake_money
+             ) = self.ruleObject.setStakeAndMoneyForNext(result)
         else:
             self.setNextMoneyAndStakeFromRuleRandom(result)
 

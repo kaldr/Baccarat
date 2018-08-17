@@ -2,7 +2,6 @@ import xlsxwriter
 
 
 class PlayerExporter:
-
     def __init__(self, player):
         # 玩家
         self.player = player
@@ -133,6 +132,9 @@ class PlayerExporter:
             # "money_before": "押注前金额",
             # 'money': "本轮后金额",
             'profit': "总盈利",
+            'win_times': "总赢次数",
+            'lose_times': "总输次数",
+            'win_lose_differ': "输赢差",
             'info': "决策"
         }
         col = 0
@@ -184,7 +186,7 @@ class PlayerExporter:
             }
         })
 
-        chart2 = workbook.add_chart({'type': 'line'})
+        chart2 = workbook.add_chart({'type': 'column'})
         sheet.insert_chart('A1', chart2)
         chart2.add_series({
             'categories':
@@ -226,9 +228,31 @@ class PlayerExporter:
                 'height': 1
             }
         })
+        # chart4 = workbook.add_chart({'type': 'line'})
+        # sheet.insert_chart('A15', chart4)
+        # chart4.add_series({
+        #     'categories':
+        #     '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
+        #     'values':
+        #     '=押注历史!$Q$1:$Q$%d' % len(self.player.result_history),
+        #     'overlap':
+        #     10,
+        # })
+        # chart4.set_legend({'none': True})
+        # chart4.set_x_axis({'visible': False})
+        # chart4.set_title({'name': '输赢总次数差'})
+        # chart4.set_plotarea({
+        #     'layout': {
+        #         'x': 0,
+        #         'y': 0,
+        #         'width': 1,
+        #         'height': 1
+        #     }
+        # })
         chart1.set_size({'width': 1000, 'height': 250})
         chart2.set_size({'width': 1000, 'height': 250})
         chart3.set_size({'width': 1000, 'height': 250})
+        # chart4.set_size({'width': 1000, 'height': 250})
 
     def stake_sheet(self, sheet, print_he=True, with_win=True):
         data = self.player.result_history

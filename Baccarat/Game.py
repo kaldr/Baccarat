@@ -3,6 +3,8 @@ from .Round import Round
 from .Player import Player
 import functools
 print = functools.partial(print, flush=True)
+from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
+ruleWinTwiceAndReturn = WinTwiceAndReturn()
 
 
 class Game:
@@ -47,13 +49,15 @@ def play(playTime):
             '交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
         player5 = Player(
             '150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
-
+        player6 = Player(
+            '赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
         players = [
             # player1,
             # player2,
             # player3,
             # player4,
-            player5
+            # player5,
+            player6
         ]
 
         # player2=Player('随机',money=310000,)
@@ -96,7 +100,7 @@ def play(playTime):
 
 play_win = 0
 play_lose = 0
-playTime = 40
+playTime = 20
 play_profit = 0
 for i in range(playTime):
     current = play(i)
