@@ -7,6 +7,8 @@ from .PlayerExporter import PlayerExporter
 from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
 
 
+'滴水'
+'正反滴水'
 class Player:
 
     # rankToStop=5000
@@ -39,6 +41,8 @@ class Player:
         self.rule_1_stake_reverse = rule_1_stake_reverse
         self.differ_span = 10000
         self.loss = -110000
+        self.stake_total=0
+        self.buster=0
         self.lossspan = -110000
         self.result_history = []
         self.zero_level_win = 0
@@ -81,7 +85,11 @@ class Player:
         self.exporter = PlayerExporter(self)
 
     def set_current_round_result(self, result):
+        self.stake_total+=self.current_stake_money
+        if 'buster' not in result:
+            result['buster']=0
         if not self.stop:
+
             if result['round_id'] == 1:
                 self.baccarat_id += 1
             result['baccarat_id'] = self.baccarat_id
@@ -115,6 +123,7 @@ class Player:
             self.result_history.append(result)
             result['info'] = ''
             self.setNextMoneyAndStake(result)
+            self.buster=result['buster']
 
     def setNextMoneyAndStake(self, result={}):
         if self.rule == 1:

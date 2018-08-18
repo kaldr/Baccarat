@@ -42,9 +42,9 @@ class Baccarat:
     def draw(self):
         for i in range(4):
             if i % 2 == 0:
-                self.current_zhuang_cards.append(self.draw_a_card())
-            else:
                 self.current_xian_cards.append(self.draw_a_card())
+            else:
+                self.current_zhuang_cards.append(self.draw_a_card())
         return (self.current_zhuang_cards, self.current_xian_cards)
 
     def supplement(self, zhuang_cards=[], xian_cards=[]):
@@ -58,6 +58,8 @@ class Baccarat:
             zhuang += self.change_card_to_number(i)
         for i in xian_cards:
             xian += self.change_card_to_number(i)
+        xian_before=xian
+        zhuang_before=zhuang
         if zhuang >= 10:
             zhuang -= 10
         if xian >= 10:
@@ -65,14 +67,20 @@ class Baccarat:
         # 天王
         if zhuang > 7 or xian > 7:
             return {}
+        elif zhuang>5 and xian>5:
+            return {}
         # 无天王
         else:
             # 玩家首2值为0，1，2，3，4，5，摸牌
+            xianFlag=False
+            card_value=0
             if xian < 6:
                 # 玩家摸牌
                 card = self.draw_a_card()
                 self.current_xian_cards.append(card)
-                xian += self.change_card_to_number(card)
+                card_value=self.change_card_to_number(card)
+                xian += card_value
+                xianFlag=True
                 if xian >= 10:
                     xian -= 10
             # 庄家根据如下情况判断是否摸牌
@@ -80,25 +88,39 @@ class Baccarat:
             if zhuang in [0, 1, 2]:
                 zhuangFlag = True
             elif zhuang == 3:
-                if xian == 8:
+                if xian_before in [6,7]:
+                    zhuangFlag=True
+                elif xianFlag and card_value==8:
                     zhuangFlag = False
                 else:
-                    zhuangFlag = True
+                    zhuangFlag=True
+
             elif zhuang == 4:
-                if xian in [0, 1, 8, 9]:
+                if xian_before in [6,7]:
+                    zhuangFlag=True
+                elif xianFlag and card_value in [0, 1, 8, 9,10]:
                     zhuangFlag = False
                 else:
-                    zhuangFlag = True
+                    zhuangFlag=True
+
             elif zhuang == 5:
-                if xian in [0, 1, 2, 3, 8, 9]:
+                if xian_before in [6,7]:
+                    zhuangFlag=True
+                elif xianFlag and card_value in [0, 1, 2, 3, 8, 9,10]:
                     zhuangFlag = False
                 else:
-                    zhuangFlag = True
+                    zhuangFlag=True
+
             elif zhuang == 6:
-                if xian in [6, 7]:
+                if xian in [6,7]:
+                    zhuangFlag=False
+                elif xianFlag and card_value in [6,7]:
                     zhuangFlag = True
+                else:
+                    zhuangFlag=False
             else:
                 zhuangFlag = False
+                
             if zhuangFlag:
                 card = self.draw_a_card()
                 self.current_zhuang_cards.append(card)
