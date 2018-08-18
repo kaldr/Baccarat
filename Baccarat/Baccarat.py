@@ -7,6 +7,19 @@ class Baccarat:
     commission = 0.05
 
     stakeType = ['庄', '闲', '和', '对']
+    # 闲从0-9
+    zhuang_third_card_rule = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  # 庄为0
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  # 庄为1
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  # 庄为2
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],  # 庄为3
+        [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],  # 庄为4
+        [0, 0, 0, 0, 1, 1, 1, 1, 0, 0],  # 庄为5
+        [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],  # 庄为6
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 庄为7
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 庄为8
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # 庄为9
+    ]
 
     def __init__(self):
         self.cards = Card().decks_of_cards(deck=8, shuffle=True, Joker=False)
@@ -18,6 +31,7 @@ class Baccarat:
         self.current_suppliment_cards = {}
         self.current_result = 0
         self.rounds = self.setRounds()
+        self.info = ''
 
     def printChart(self):
         pass
@@ -58,75 +72,54 @@ class Baccarat:
             zhuang += self.change_card_to_number(i)
         for i in xian_cards:
             xian += self.change_card_to_number(i)
-        xian_before=xian
-        zhuang_before=zhuang
+        xian = xian % 10
+        zhuang = zhuang % 10
+        xian_before = xian
+        zhuang_before = zhuang
         if zhuang >= 10:
             zhuang -= 10
         if xian >= 10:
             xian -= 10
         # 天王
         if zhuang > 7 or xian > 7:
+            self.info = '有一方前两张牌已经是8、9，不需要摸第三张牌'
             return {}
-        elif zhuang>5 and xian>5:
-            return {}
-        # 无天王
+        # 无天王，闲为6、7
+        elif xian > 5:
+            if zhuang > 5:
+                self.info = "闲为6、7，庄也为6、7，庄不需要摸排"
+            else:
+                self.info = '闲为6、7，庄小于6，庄需要摸牌'
+                card = self.draw_a_card()
+                self.current_zhuang_cards.append(card)
+        # 无天王，闲不是6、7
         else:
+            self.info = ''
             # 玩家首2值为0，1，2，3，4，5，摸牌
-            xianFlag=False
-            card_value=0
+            xianFlag = False
+            card_value = 0
             if xian < 6:
                 # 玩家摸牌
                 card = self.draw_a_card()
                 self.current_xian_cards.append(card)
-                card_value=self.change_card_to_number(card)
+                self.info = '玩家小于6点，必须摸牌；'
+                card_value = self.change_card_to_number(card)
                 xian += card_value
-                xianFlag=True
+                xianFlag = True
                 if xian >= 10:
-                    xian -= 10
+                    xian = xian % 10
             # 庄家根据如下情况判断是否摸牌
-            zhuangFlag = False
-            if zhuang in [0, 1, 2]:
-                zhuangFlag = True
-            elif zhuang == 3:
-                if xian_before in [6,7]:
-                    zhuangFlag=True
-                elif xianFlag and card_value==8:
-                    zhuangFlag = False
-                else:
-                    zhuangFlag=True
+            zhuangFlag = self.zhuang_third_card_rule[zhuang_before][card_value]
 
-            elif zhuang == 4:
-                if xian_before in [6,7]:
-                    zhuangFlag=True
-                elif xianFlag and card_value in [0, 1, 8, 9,10]:
-                    zhuangFlag = False
-                else:
-                    zhuangFlag=True
-
-            elif zhuang == 5:
-                if xian_before in [6,7]:
-                    zhuangFlag=True
-                elif xianFlag and card_value in [0, 1, 2, 3, 8, 9,10]:
-                    zhuangFlag = False
-                else:
-                    zhuangFlag=True
-
-            elif zhuang == 6:
-                if xian in [6,7]:
-                    zhuangFlag=False
-                elif xianFlag and card_value in [6,7]:
-                    zhuangFlag = True
-                else:
-                    zhuangFlag=False
-            else:
-                zhuangFlag = False
-                
             if zhuangFlag:
+                self.info += '庄为%d，闲第三张为%d，装摸牌' % (zhuang_before, card_value)
                 card = self.draw_a_card()
                 self.current_zhuang_cards.append(card)
                 zhuang += self.change_card_to_number(card)
                 if zhuang >= 10:
                     zhuang -= 10
+            else:
+                self.info += '庄为%d，闲第三张为%d，装不摸牌' % (zhuang_before, card_value)
 
     def change_card_to_number(self, card):
         card = card[1:]
@@ -173,6 +166,7 @@ class Baccarat:
             "winner": self.stakeType[self.current_result - 1],
             "zhuang_point": self.current_zhuang_point,
             "xian_point": self.current_xian_point,
+            'draw_info': self.info
         }
 
     def win_or_not(self, stake=1):

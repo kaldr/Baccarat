@@ -9,7 +9,7 @@ ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
 
 class Game:
     roundLimit = 1000  # 70000次押注为一个excel
-    # roundLimit = 100  # 7000次押注为一个excel
+    roundLimit = 100  # 7000次押注为一个excel
 
     def __init__(self, players=[]):
         self.players = players
@@ -38,8 +38,8 @@ def play(playTime):
     totalWin = [0, 0]
     l = 1
     profit = 0
-    buster=0
-    stake_total=0
+    buster = 0
+    stake_total = 0
     for i in range(l):
         player1 = Player(
             '三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
@@ -72,8 +72,8 @@ def play(playTime):
         differ = 0
         for player in players:
             differ = player.current_money - player.money
-            stake_total+=player.stake_total
-            buster+=player.buster
+            stake_total += player.stake_total
+            buster += player.buster
             result = 0
             if differ > 0:
                 result = 1
@@ -96,28 +96,29 @@ def play(playTime):
 
     print('本次盈利：%s' % profit)
     print("----------------------")
-    return (profit,stake_total,buster)
+    return (profit, stake_total, buster)
 
     # print(totalWin)
 
 
 play_win = 0
 play_lose = 0
-playTime = 150
+playTime = 20
 play_profit = 0
-play_stake_cost=0
-play_buster=0
+play_stake_cost = 0
+play_buster = 0
 for i in range(playTime):
-    (current,stake_total,buster) = play(i)
+    (current, stake_total, buster) = play(i)
     play_profit += current
-    play_stake_cost+=stake_total
-    play_buster+=buster
+    play_stake_cost += stake_total
+    play_buster += buster
     if current > 0:
         play_win += 1
     else:
         play_lose += 1
-    print('第%d次'%(i+1))
-    print('总盈利:%s，总押注：%s，总爆掉：%s' % (play_profit,play_stake_cost,play_buster))
-print("%s次模拟玩，每次模拟玩约%d次押注共盈利%s，共押注%d，共爆掉%d，赢%d次，输%d次，赢输比%.1f%%" %
-      (playTime, Game.roundLimit * 70, play_profit,play_stake_cost,play_buster, play_win, play_lose,
-       play_win / (play_lose + 0.001) * 100.0))
+    print('第%d次' % (i + 1))
+    print('总盈利:%s，总押注：%s，总爆掉：%s' % (play_profit, play_stake_cost, play_buster))
+print(
+    "%s次模拟玩，每次模拟玩约%d次押注共盈利%s，共押注%d，共爆掉%d，赢%d次，输%d次，赢输比%.1f%%" %
+    (playTime, Game.roundLimit * 70, play_profit, play_stake_cost, play_buster,
+     play_win, play_lose, play_win / (play_lose + 0.001) * 100.0))
