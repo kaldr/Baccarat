@@ -3,10 +3,10 @@ from .Rule import Rule
 
 
 class WinTwiceAndReturn(Rule):
-    name='double'
+    name = 'double'
     levels = [[
         300, 300, 300, 300, 400, 500, 700, 1000, 1300, 1800, 2500, 3500, 4800,
-        6500, 8800, 12000, 16000, 22000, 30000, 40000, 55000,75000,100000,137000,170000,230000,310000,450000
+        6500, 8800, 12000, 16000, 22000, 30000, 40000, 55000, 75000, 100000, 137000, 170000, 230000, 310000, 450000
     ]]
 
     def __init__(self,
@@ -27,9 +27,10 @@ class WinTwiceAndReturn(Rule):
         self.concurrentLose = 0
         self.levelSteps = self.levels[levelType]
         if not maxLevel:
-            self.maxLevel=len(self.levelSteps)
+            self.maxLevel = len(self.levelSteps)
         else:
-            self.maxLevel=maxLevel
+            self.maxLevel = maxLevel
+
     def getFirstStakeAndMoney(self):
         self.currentRank = 0
         return (1, self.levelSteps[self.currentRank])
@@ -82,7 +83,7 @@ class WinTwiceAndReturn(Rule):
                 result['info'] = '上次输了，本次到下一档'
                 if self.currentRank >= self.maxLevel:
                     self.currentRank = 0
-                    result['buster']+=1
+                    result['buster'] += 1
                     result['info'] = '爆掉，重新打'
             # if self.win_or_lose < -20:
             #     self.win_or_lose = 0

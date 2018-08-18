@@ -4,12 +4,13 @@ from .Player import Player
 import functools
 print = functools.partial(print, flush=True)
 from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
+from .Rules.AlwaysXian import AlwaysXian
 ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
-
+ruleAlwaysXian=AlwaysXian(maxLevel=300)
 
 class Game:
     roundLimit = 1000  # 70000次押注为一个excel
-    roundLimit = 100  # 7000次押注为一个excel
+    # roundLimit = 100  # 7000次押注为一个excel
 
     def __init__(self, players=[]):
         self.players = players
@@ -53,13 +54,14 @@ def play(playTime):
             '150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
         player6 = Player(
             '赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
+        player7=Player('闲',money=10000,rule=4,ruleObject=ruleAlwaysXian)
         players = [
             # player1,
             # player2,
             # player3,
             # player4,
             # player5,
-            player6
+            player7
         ]
 
         # player2=Player('随机',money=310000,)
@@ -91,12 +93,12 @@ def play(playTime):
             profit += differ
         G.export_player_history_for_a_game()
         # print(s)
-    print('每个玩家盈利：')
-    print(totals)
+    # print('每个玩家盈利：')
+    # print(totals)
 
     print('本次盈利：%s' % profit)
     print("----------------------")
-    return (profit, stake_total, buster)
+    return (profit, stake_total, buster,player.max_pure_win,player.max_pure_lose)
 
     # print(totalWin)
 
@@ -107,8 +109,9 @@ playTime = 20
 play_profit = 0
 play_stake_cost = 0
 play_buster = 0
+
 for i in range(playTime):
-    (current, stake_total, buster) = play(i)
+    (current, stake_total, buster,max_pure_win,max_pure_lose) = play(i)
     play_profit += current
     play_stake_cost += stake_total
     play_buster += buster
@@ -117,7 +120,7 @@ for i in range(playTime):
     else:
         play_lose += 1
     print('第%d次' % (i + 1))
-    print('总盈利:%s，总押注：%s，总爆掉：%s' % (play_profit, play_stake_cost, play_buster))
+    print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster,max_pure_win,max_pure_lose))
 print(
     "%s次模拟玩，每次模拟玩约%d次押注共盈利%s，共押注%d，共爆掉%d，赢%d次，输%d次，赢输比%.1f%%" %
     (playTime, Game.roundLimit * 70, play_profit, play_stake_cost, play_buster,

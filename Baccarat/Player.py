@@ -6,9 +6,10 @@ from .PlayerExporter import PlayerExporter
 
 from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
 
-
 '滴水'
 '正反滴水'
+
+
 class Player:
 
     # rankToStop=5000
@@ -41,8 +42,8 @@ class Player:
         self.rule_1_stake_reverse = rule_1_stake_reverse
         self.differ_span = 10000
         self.loss = -110000
-        self.stake_total=0
-        self.buster=0
+        self.stake_total = 0
+        self.buster = 0
         self.lossspan = -110000
         self.result_history = []
         self.zero_level_win = 0
@@ -61,6 +62,8 @@ class Player:
         self.initial_rank = 0
         self.win_times = 0
         self.lose_times = 0
+        self.max_pure_lose = 0
+        self.max_pure_win = 0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
@@ -85,11 +88,10 @@ class Player:
         self.exporter = PlayerExporter(self)
 
     def set_current_round_result(self, result):
-        self.stake_total+=self.current_stake_money
+        self.stake_total += self.current_stake_money
         if 'buster' not in result:
-            result['buster']=0
+            result['buster'] = 0
         if not self.stop:
-
             if result['round_id'] == 1:
                 self.baccarat_id += 1
             result['baccarat_id'] = self.baccarat_id
@@ -120,10 +122,17 @@ class Player:
             result['win_times'] = self.win_times
             result['lose_times'] = self.lose_times
             result['win_lose_differ'] = self.win_times - self.lose_times
+            if self.win_or_lose > 0:
+                if self.win_or_lose > self.max_pure_win:
+                    self.max_pure_win = self.win_or_lose
+            else:
+                if self.win_or_lose < self.max_pure_lose:
+                    self.max_pure_lose = (-1) * self.win_or_lose
+
             self.result_history.append(result)
             result['info'] = ''
             self.setNextMoneyAndStake(result)
-            self.buster=result['buster']
+            self.buster = result['buster']
 
     def setNextMoneyAndStake(self, result={}):
         if self.rule == 1:
