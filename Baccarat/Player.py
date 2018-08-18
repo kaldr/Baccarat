@@ -15,27 +15,16 @@ class Player:
     # rankToStop=5000
     lose_time_upper = 70
     triple_ranks = [
-        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200,
-        1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400,
-        7100, 8000, 9000, 10000, 11500, 13000, 14500, 17000, 19000, 21000,
-        23000, 25500, 28000
+        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400, 7100, 8000, 9000, 10000, 11500, 13000, 14500,
+        17000, 19000, 21000, 23000, 25500, 28000
     ]
     ranks = [
-        50, 70, 100, 130, 150, 180, 200, 230, 250, 280, 300, 330, 350, 380,
-        400, 430, 450, 480, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950,
-        1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200,
-        2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4500, 5000, 5500,
-        6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 11000, 12000,
-        13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000
+        50, 70, 100, 130, 150, 180, 200, 230, 250, 280, 300, 330, 350, 380, 400, 430, 450, 480, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800,
+        1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 11000, 12000, 13000, 14000, 15000, 16000,
+        17000, 18000, 19000, 20000
     ]
 
-    def __init__(self,
-                 name='李妙',
-                 money=10000,
-                 rule=0,
-                 rule_2_stake_reverse=False,
-                 rule_1_stake_reverse=False,
-                 ruleObject={}):
+    def __init__(self, name='李妙', money=10000, rule=0, rule_2_stake_reverse=False, rule_1_stake_reverse=False, ruleObject={}):
         self.ruleObject = ruleObject
         self.differ = 10000
         self.rule_2_stake_reverse = rule_2_stake_reverse
@@ -64,6 +53,10 @@ class Player:
         self.lose_times = 0
         self.max_pure_lose = 0
         self.max_pure_win = 0
+        self.reach_profit = 0
+        self.burst_profit = 0
+        self.no_burst_profit = 0
+        self.current_stake_money_level = 0
         if rule == 1:
             self.setNextMoneyAndStakeFromRuleCrossStake()
             self.current_stake = 1
@@ -81,17 +74,23 @@ class Player:
             self.initial_rank = 2
             self.current_stake_money = 150
         elif rule == 4:
-            (self.current_stake, self.current_stake_money
-             ) = self.ruleObject.getFirstStakeAndMoney()
+            (self.current_stake, self.current_stake_money) = self.ruleObject.getFirstStakeAndMoney()
         else:
             self.setNextMoneyAndStakeFromRuleRandom()
         self.exporter = PlayerExporter(self)
 
+    def bet(self, betInfo):
+        pass
+
     def set_current_round_result(self, result):
-        self.stake_total += self.current_stake_money
+        if 'reach_profit' not in result:
+            result['reach_profit'] = self.reach_profit
         if 'buster' not in result:
-            result['buster'] = 0
+            result['buster'] = self.buster
+            result['is_buster'] = False
         if not self.stop:
+            result['is_buster'] = False
+            self.stake_total += self.current_stake_money
             if result['round_id'] == 1:
                 self.baccarat_id += 1
             result['baccarat_id'] = self.baccarat_id
@@ -122,17 +121,23 @@ class Player:
             result['win_times'] = self.win_times
             result['lose_times'] = self.lose_times
             result['win_lose_differ'] = self.win_times - self.lose_times
+            result['stop'] = 0
             if self.win_or_lose > 0:
                 if self.win_or_lose > self.max_pure_win:
                     self.max_pure_win = self.win_or_lose
             else:
                 if self.win_or_lose < self.max_pure_lose:
                     self.max_pure_lose = (-1) * self.win_or_lose
-
             self.result_history.append(result)
             result['info'] = ''
             self.setNextMoneyAndStake(result)
             self.buster = result['buster']
+            if result['is_buster']:
+                self.burst_profit -= result['change']
+            else:
+                self.no_burst_profit += result['change']
+            self.reach_profit = result['reach_profit']
+            self.stop = result['stop']
 
     def setNextMoneyAndStake(self, result={}):
         if self.rule == 1:
@@ -140,8 +145,7 @@ class Player:
         elif self.rule == 2 or self.rule == 3:
             self.setNextMoneyAndStakeFromRuleComplicated(result)
         elif self.rule == 4:
-            (self.current_stake, self.current_stake_money
-             ) = self.ruleObject.setStakeAndMoneyForNext(result)
+            (self.current_stake, self.current_stake_money) = self.ruleObject.setStakeAndMoneyForNext(result)
         else:
             self.setNextMoneyAndStakeFromRuleRandom(result)
 
@@ -225,10 +229,7 @@ class Player:
             self.currentRank -= 1
             result['info'] = '赢了3次，打上一级'
 
-    def setNextLevelWhenTotalWinOrLose(self,
-                                       result,
-                                       cost_lose_restart=False,
-                                       top_restart=True):
+    def setNextLevelWhenTotalWinOrLose(self, result, cost_lose_restart=False, top_restart=True):
         if top_restart or self.rule == 3:
             if self.current_money - self.money >= self.differ:
                 result['info'] = '赢了%d重新打' % self.differ
@@ -268,11 +269,9 @@ class Player:
                         self.stop = 1
                         result['info'] = '爆了停止'
                 else:
-                    result['info'] = '输了%d次，打%d级' % (lose_time,
-                                                     self.currentRank)
+                    result['info'] = '输了%d次，打%d级' % (lose_time, self.currentRank)
             else:
-                result['info'] = '净输了%d次，仍然打%d级' % (lose_time,
-                                                    self.currentRank)
+                result['info'] = '净输了%d次，仍然打%d级' % (lose_time, self.currentRank)
 
     def setNextMoneyAndStakeFromRuleComplicated(self, result={}):
         result['info'] = '没有赢或者输3次，继续打这一等级'
@@ -314,56 +313,3 @@ class Player:
         #     self.stop = 0
         #     result['info'] = '最后一级输了3次，重新开始打' % lastLevel
         self.current_stake_money = self.triple_ranks[self.currentRank]
-
-    def exportToExcel(self, filename='玩家', folder=False):
-        workbook = xlwt.Workbook(encoding='utf-8')
-        data = self.result_history
-        header = {
-            'baccarat_id': "局",
-            'round_id': "轮",
-            'zhuang': "庄牌",
-            "zhuang_point": "庄家点数",
-            'xian': "闲牌",
-            "xian_point": "闲家点数",
-            'winner': "赢家",
-            'stake': "押注",
-            "change": "本轮变化",
-            'win': "本轮输赢",
-            'win_or_lose': "净",
-            'stake_money': "押注金额",
-            # "money_before": "押注前金额",
-            # 'money': "本轮后金额",
-            'profit': "总盈利",
-            'info': "决策"
-        }
-        sheet = workbook.add_sheet(filename, cell_overwrite_ok=True)
-        col = 0
-        row = 0
-        for (key, title) in header.items():
-            sheet.write(row, col, title)
-            for d in data:
-                row += 1
-                # print(d[key])
-                if key == 'win':
-                    if d[key]:
-                        sheet.write(row, col, 1)
-                    else:
-                        sheet.write(row, col, -1)
-                else:
-                    sheet.write(row, col, d[key])
-            col += 1
-            row = 0
-        filepath = "./Export/"
-
-        if folder:
-            filepath = filepath + folder + "/"
-            if not os.path.exists(filepath.encode('utf8')):
-                os.mkdir(filepath.encode('utf8'))
-            filepath = filepath + filename + ".xls"
-        else:
-            filepath = filepath + filename + ".xls"
-
-        workbook.save(filepath.encode('utf8'))
-
-
-print("全输掉，成本是：%d" % (sum(Player.triple_ranks) * 3))

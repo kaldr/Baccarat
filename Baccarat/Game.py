@@ -5,12 +5,15 @@ import functools
 print = functools.partial(print, flush=True)
 from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
 from .Rules.AlwaysXian import AlwaysXian
+from .Rules.Drop import Drop
 ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
-ruleAlwaysXian=AlwaysXian(maxLevel=300)
+ruleAlwaysXian = AlwaysXian(maxLevel=300)
+ruleDrop = Drop(stopWhenProfit=True, stopWhenProfitMoney=10000)
+
 
 class Game:
     roundLimit = 1000  # 70000次押注为一个excel
-    # roundLimit = 100  # 7000次押注为一个excel
+    roundLimit = 100  # 7000次押注为一个excel
 
     def __init__(self, players=[]):
         self.players = players
@@ -42,26 +45,22 @@ def play(playTime):
     buster = 0
     stake_total = 0
     for i in range(l):
-        player1 = Player(
-            '三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
-        player2 = Player(
-            '三次交叉与上一轮相同', money=100000, rule=2, rule_2_stake_reverse=False)
-        player3 = Player(
-            '交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
-        player4 = Player(
-            '交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
-        player5 = Player(
-            '150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
-        player6 = Player(
-            '赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
-        player7=Player('闲',money=10000,rule=4,ruleObject=ruleAlwaysXian)
+        player1 = Player('三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
+        player2 = Player('三次交叉与上一轮相同', money=100000, rule=2, rule_2_stake_reverse=False)
+        player3 = Player('交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
+        player4 = Player('交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
+        player5 = Player('150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
+        player6 = Player('赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
+        player7 = Player('闲', money=10000, rule=4, ruleObject=ruleAlwaysXian)
+        player8 = Player('%2d滴水' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDrop)
         players = [
             # player1,
             # player2,
             # player3,
             # player4,
             # player5,
-            player7
+            # player7,
+            player8
         ]
 
         # player2=Player('随机',money=310000,)
@@ -72,46 +71,60 @@ def play(playTime):
         s = "%d\t" % (i + 1)
         j = 0
         differ = 0
-        for player in players:
-            differ = player.current_money - player.money
-            stake_total += player.stake_total
-            buster += player.buster
-            result = 0
-            if differ > 0:
-                result = 1
+        player = players[0]
+        differ = player.current_money - player.money
+        stake_total += player.stake_total
+        buster += player.buster
+        result = 0
+        if differ > 0:
+            result = 1
 
-            if j % 2 == 0:
-                totals[0] += differ
-                if differ > 0:
-                    totalWin[0] += 1
-            else:
-                totals[1] += differ
-                if differ > 0:
-                    totalWin[1] += 1
-            s += '%s\t%d\t%s\t' % (player.name, differ, result)
-            j += 1
-            profit += differ
+        if j % 2 == 0:
+            totals[0] += differ
+            if differ > 0:
+                totalWin[0] += 1
+        else:
+            totals[1] += differ
+            if differ > 0:
+                totalWin[1] += 1
+        s += '%s\t%d\t%s\t' % (player.name, differ, result)
+        j += 1
+        profit += differ
         G.export_player_history_for_a_game()
+        burst_profit = 0
+        if player.buster:
+            burst_profit -= differ
+        no_burst_profit = 0
+        if not player.buster:
+            no_burst_profit += differ
         # print(s)
     # print('每个玩家盈利：')
     # print(totals)
 
-    print('本次盈利：%s' % profit)
-    print("----------------------")
-    return (profit, stake_total, buster,player.max_pure_win,player.max_pure_lose)
+    return (profit, stake_total, buster, player.max_pure_win, player.max_pure_lose, len(player.result_history), burst_profit, no_burst_profit)
 
     # print(totalWin)
 
 
 play_win = 0
 play_lose = 0
-playTime = 20
+playTime = 40
 play_profit = 0
 play_stake_cost = 0
 play_buster = 0
-
+max_pure_win_all = 0
+max_pure_lose_all = 0
+count = 0
+no_burst_profit_total = 0
+burst_profit_total = 0
 for i in range(playTime):
-    (current, stake_total, buster,max_pure_win,max_pure_lose) = play(i)
+    (current, stake_total, buster, max_pure_win, max_pure_lose, play_count, burst_profit, no_burst_profit) = play(i)
+    if max_pure_win > max_pure_win_all:
+        max_pure_win_all = max_pure_win
+    if max_pure_lose > max_pure_lose_all:
+        max_pure_lose_all = max_pure_lose
+    no_burst_profit_total += no_burst_profit
+    burst_profit_total += burst_profit
     play_profit += current
     play_stake_cost += stake_total
     play_buster += buster
@@ -119,9 +132,11 @@ for i in range(playTime):
         play_win += 1
     else:
         play_lose += 1
+    count += play_count
+    print("----------------------")
     print('第%d次' % (i + 1))
-    print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster,max_pure_win,max_pure_lose))
-print(
-    "%s次模拟玩，每次模拟玩约%d次押注共盈利%s，共押注%d，共爆掉%d，赢%d次，输%d次，赢输比%.1f%%" %
-    (playTime, Game.roundLimit * 70, play_profit, play_stake_cost, play_buster,
-     play_win, play_lose, play_win / (play_lose + 0.001) * 100.0))
+    print('本次盈利：%s，本次共押了%d注，押注金额为%d' % (current, play_count, stake_total))
+    print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster, max_pure_win, max_pure_lose))
+print('=====================')
+print("%s次押注共盈利%s，共押注%d，共爆掉%d次，爆掉亏损%s，其他盈利%s，最大净赢%d，最大净输%d,赢%d次，输%d次，赢输比%.1f%%" % (count, play_profit, play_stake_cost, play_buster, burst_profit_total, no_burst_profit_total, max_pure_win_all,
+                                                                                   max_pure_lose_all, play_win, play_lose, play_win / (play_lose + 0.001) * 100.0))
