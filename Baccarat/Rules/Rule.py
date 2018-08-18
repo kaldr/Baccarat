@@ -1,10 +1,5 @@
 class Rule:
-    def __init__(self,
-                 money=10000,
-                 levelType=0,
-                 loseAndStop=True,
-                 stakeFollowPrevious=True,
-                 randomStake=False):
+    def __init__(self, money=10000, levelType=0, loseAndStop=True, stakeFollowPrevious=True, randomStake=False):
         self.differ = 10000
         self.differ_span = 10000
         self.loss = -110000
