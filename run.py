@@ -1,4 +1,7 @@
-from Baccarat.Game import Game
+# from Baccarat.Game import Game
+
+import GUI.Mouse
+
 # from Baccarat.Baccarat import Baccarat
 # from Poker.Card import Card
 

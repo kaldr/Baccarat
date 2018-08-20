@@ -1,12 +1,16 @@
 from .Rule import Rule
 
+# 100起打，100赢3次到50，50赢三次到100
+
 
 class Drop(Rule):
     levels = [[
-        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200,
-        1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400,
-        7100, 8000, 9000, 10000, 11500, 13000, 14500, 17000, 19000, 21000,
-        23000, 25500, 28000
+        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400, 7100, 8000, 9000, 10000, 11500, 13000, 14500,
+        17000, 19000, 21000, 23000, 25500, 28000
+    ], [
+        50, 70, 100, 130, 150, 180, 200, 230, 250, 280, 300, 330, 350, 380, 400, 430, 450, 480, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800,
+        1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 11000, 12000, 13000, 14000, 15000, 16000,
+        17000, 18000, 19000, 20000, 21500, 23000, 24500, 26000, 27500, 29000, 31000, 33000, 35000, 37000, 39000, 41000, 44000, 47000, 50000
     ]]
 
     def __init__(self,
@@ -22,7 +26,8 @@ class Drop(Rule):
                  lowestLevelWin3TimeJumpToLevel=0,
                  stopWhenProfit=False,
                  stopWhenProfitMoney=0,
-                 stopOnLastLevel=False):
+                 stopOnLastLevel=False,
+                 recursiveStake=True):
         Rule.__init__(self, money=money)
         self.maxLevel = maxLevel
         self.lowestLevelWin3TimeJumpToLevel = lowestLevelWin3TimeJumpToLevel
@@ -33,6 +38,7 @@ class Drop(Rule):
         self.initLevel = initLevel
         self.randomStake = randomStake
         self.firstStake = firstStake
+        self.recursiveStake = recursiveStake
         self.levelType = levelType
         self.lowLevelWin = lowLevelWin
         self.liftLevelLose = liftLevelLose
@@ -46,7 +52,7 @@ class Drop(Rule):
         self.currentLevelPureWin = 0
         self.currentRank = self.initLevel
         stake = 1
-        money = 50
+        money = self.levelSteps[0]
         if self.firstStake:
             stake = self.firstStake
         if self.initLevel:
@@ -59,7 +65,12 @@ class Drop(Rule):
         return (stake, money)
 
     def setStake(self, result={}):
-        if not self.reverseStake:
+        if self.recursiveStake:
+            if result['stake_id'] == 1:
+                return 2
+            elif result['stake_id'] == 2:
+                return 1
+        elif not self.reverseStake:
             if result['winner_id'] == 3:
                 return result['stake_id']
             else:
@@ -91,15 +102,15 @@ class Drop(Rule):
                     # 如果不是0，那么根据初始设置打对应的档
                     self.currentRank = self.lowestLevelWin3TimeJumpToLevel
                     self.currentLevelPureWin = 0
-                    result['info'] = '最低档在连赢3次的情况下，要到特定的档上去'
+                    result['info'] = '最低档在连赢%d次的情况下，要到特定的档上去' % self.lowLevelWin
                 # 如果不是最低档，是其他档赢了3次
                 elif self.currentLevelPureWin == self.lowLevelWin:
                     self.currentRank -= 1
                     self.currentLevelPureWin = 0
-                    result['info'] = '当前档累计赢了3次，降档'
+                    result['info'] = '当前档累计赢了%d次，降档' % self.lowLevelWin
                 # 如果不是最低档，其他档赢了非3次，那么还是返回当前的档
                 else:
-                    result['info'] = '当前档没有累计赢了3次，不变'
+                    result['info'] = '当前档没有累计赢了%d次，不变' % self.lowLevelWin
 
             # 上一次输
             else:
@@ -107,8 +118,7 @@ class Drop(Rule):
                 if result['winner_id'] != 3:
                     self.currentLevelPureWin -= 1
                     # 如果爆掉，一定是最后哪一档已经连续输了3次的时候，爆掉了可以停止，可以重新开始打
-                    if self.currentLevelPureWin == -self.liftLevelLose and self.currentRank == len(
-                            self.levelSteps) - 1:
+                    if self.currentLevelPureWin == -self.liftLevelLose and self.currentRank == len(self.levelSteps) - 1:
                         result['buster'] += 1
                         result['is_buster'] = True
                         self.currentLevelPureWin = 0
@@ -126,9 +136,9 @@ class Drop(Rule):
                         if self.currentLevelPureWin == -self.liftLevelLose:
                             self.currentLevelPureWin = 0
                             self.currentRank += 1
-                            result['info'] = '当前档累计输3次，打下一档'
+                            result['info'] = '当前档累计输%d次，打下一档' % self.liftLevelLose
                         else:
-                            result['info'] = '当前档没有累计输3次，不变'
+                            result['info'] = '当前档没有累计输%d次，不变' % self.lowLevelWin
                 # 输了，结果是和，还跟上一次打的一样
                 else:
                     result['info'] = '和不变'

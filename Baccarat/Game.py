@@ -11,6 +11,8 @@ ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
 ruleAlwaysXian = AlwaysXian(maxLevel=300)
 ruleDrop = Drop(stopWhenProfit=True, stopWhenProfitMoney=10000)
 ruleFifteen = Fifteen(stopProfit=30000)
+ruleDropThree = Drop(stopWhenProfit=True, stopWhenProfitMoney=4000, lowestLevelWin3TimeJumpToLevel=1)
+ruleDropOne = Drop(stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1, lowLevelWin=1, levelType=1, recursiveStake=True)
 
 
 class Game:
@@ -47,26 +49,18 @@ def play(playTime):
     buster = 0
     stake_total = 0
     for i in range(l):
-        player1 = Player(
-            '三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
-        player2 = Player(
-            '三次交叉与上一轮相同', money=100000, rule=2, rule_2_stake_reverse=False)
-        player3 = Player(
-            '交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
-        player4 = Player(
-            '交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
-        player5 = Player(
-            '150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
-        player6 = Player(
-            '赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
+        player1 = Player('三次交叉与上一轮相反', money=100000, rule=2, rule_2_stake_reverse=True)
+        player2 = Player('三次交叉与上一轮相同', money=100000, rule=2, rule_2_stake_reverse=False)
+        player3 = Player('交叉先押闲', money=100000, rule=1, rule_1_stake_reverse=True)
+        player4 = Player('交叉先押庄', money=100000, rule=1, rule_1_stake_reverse=False)
+        player5 = Player('150起三次交叉', money=100000, rule=3, rule_1_stake_reverse=False)
+        player6 = Player('赢二次回头', money=10000, rule=4, ruleObject=ruleWinTwiceAndReturn)
         player7 = Player('闲', money=10000, rule=4, ruleObject=ruleAlwaysXian)
-        player8 = Player(
-            '%2d滴水' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDrop)
-        player9 = Player(
-            "%2d十五档" % (playTime + 1),
-            money=10000,
-            rule=4,
-            ruleObject=ruleFifteen)
+        player8 = Player('%2d滴水' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDrop)
+
+        player9 = Player("%2d十五档" % (playTime + 1), money=10000, rule=4, ruleObject=ruleFifteen)
+        player10 = Player('%2d滴水三进三出' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDropThree)
+        player11 = Player('%2d滴水一进一出庄闲循环往复' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDropOne)
         players = [
             # player1,
             # player2,
@@ -75,7 +69,9 @@ def play(playTime):
             # player5,
             # player7,
             # player8,
-            player9
+            # player9,
+            # player10,
+            player11
         ]
 
         # player2=Player('随机',money=310000,)
@@ -116,9 +112,7 @@ def play(playTime):
     # print('每个玩家盈利：')
     # print(totals)
 
-    return (profit, stake_total,
-            buster, player.max_pure_win, player.max_pure_lose,
-            len(player.result_history), burst_profit, no_burst_profit)
+    return (profit, stake_total, buster, player.max_pure_win, player.max_pure_lose, len(player.result_history), burst_profit, no_burst_profit)
 
     # print(totalWin)
 
@@ -135,8 +129,7 @@ count = 0
 no_burst_profit_total = 0
 burst_profit_total = 0
 for i in range(playTime):
-    (current, stake_total, buster, max_pure_win, max_pure_lose, play_count,
-     burst_profit, no_burst_profit) = play(i)
+    (current, stake_total, buster, max_pure_win, max_pure_lose, play_count, burst_profit, no_burst_profit) = play(i)
     if max_pure_win > max_pure_win_all:
         max_pure_win_all = max_pure_win
     if max_pure_lose > max_pure_lose_all:
@@ -154,10 +147,7 @@ for i in range(playTime):
     print("----------------------")
     print('第%d次' % (i + 1))
     print('本次盈利：%s，本次共押了%d注，押注金额为%d' % (current, play_count, stake_total))
-    print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (
-        play_profit, play_stake_cost, play_buster, max_pure_win, max_pure_lose))
+    print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster, max_pure_win, max_pure_lose))
 print('=====================')
-print("%s次押注共盈利%s，共押注%d，共爆掉%d次，爆掉亏损%s，其他盈利%s，最大净赢%d，最大净输%d,赢%d次，输%d次，赢输比%.1f%%"
-      % (count, play_profit, play_stake_cost, play_buster, burst_profit_total,
-         no_burst_profit_total, max_pure_win_all, max_pure_lose_all, play_win,
-         play_lose, play_win / (play_lose + 0.001) * 100.0))
+print("%s次押注共盈利%s，共押注%d，共爆掉%d次，爆掉亏损%s，其他盈利%s，最大净赢%d，最大净输%d,赢%d次，输%d次，赢输比%.1f%%" % (count, play_profit, play_stake_cost, play_buster, burst_profit_total, no_burst_profit_total, max_pure_win_all,
+                                                                                   max_pure_lose_all, play_win, play_lose, play_win / (play_lose + 0.001) * 100.0))
