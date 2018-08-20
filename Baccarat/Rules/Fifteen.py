@@ -9,7 +9,7 @@ class Fifteen(Rule):
     ]]
 
     def __init__(self,
-                 initLevel=3,
+                 initLevel=0,
                  stay_times=15,
                  levelType=0,
                  money=10000,
@@ -116,13 +116,13 @@ class Fifteen(Rule):
                 result['info'] += '爆掉'
             # 最低级没有赢足够次数、以及其他等级
             else:
-                if self.current_level_lose in [3, 4]:
+                if self.current_level_win_or_lose in [-3]:
                     self.currentRank += 1
                     result['info'] = '本档累计输掉3次，打下一档'
-                elif self.current_level_lose in [5, 6, 7, 8]:
+                elif self.current_level_win_or_lose in [-5, -7]:
                     self.currentRank += 2
                     result['info'] = '本档累计输掉5次，打+2档'
-                elif self.current_level_lose >= 9:
+                elif self.current_level_win_or_lose in [-9, -11, -13]:
                     self.currentRank += 3
                     result['info'] = '本档累计输掉9次，打+3档'
                 else:

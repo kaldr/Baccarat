@@ -63,7 +63,10 @@ def play(playTime):
         player8 = Player(
             '%2d滴水' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDrop)
         player9 = Player(
-            "%2d" % (playTime + 1), money=10000, rule=4, ruleObject=ruleFifteen)
+            "%2d十五档" % (playTime + 1),
+            money=10000,
+            rule=4,
+            ruleObject=ruleFifteen)
         players = [
             # player1,
             # player2,

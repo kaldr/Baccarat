@@ -3,8 +3,10 @@ from .Rule import Rule
 
 class Drop(Rule):
     levels = [[
-        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400, 7100, 8000, 9000, 10000, 11500, 13000, 14500,
-        17000, 19000, 21000, 23000, 25500, 28000
+        50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1200,
+        1400, 1600, 1900, 2200, 2600, 3000, 3500, 4000, 4500, 5000, 5700, 6400,
+        7100, 8000, 9000, 10000, 11500, 13000, 14500, 17000, 19000, 21000,
+        23000, 25500, 28000
     ]]
 
     def __init__(self,
@@ -12,7 +14,7 @@ class Drop(Rule):
                  levelType=0,
                  maxLevel=0,
                  money=10000,
-                 initLevel=0,
+                 initLevel=1,
                  firstStake=1,
                  reverseStake=False,
                  liftLevelLose=3,
@@ -63,6 +65,13 @@ class Drop(Rule):
             else:
                 return result['winner_id']
 
+    def lowestLevelMoney(self, result):
+        # 50 赢3次到 100
+        # 50 输3次到 100
+        # 100 赢3次到50
+        # 100 输3次
+        pass
+
     def setMoney(self, result={}):
         # 如果达到了已经要的利润，可能要停止
         if self.stopWhenProfit and result['profit'] >= self.stopWhenProfitMoney:
@@ -98,7 +107,8 @@ class Drop(Rule):
                 if result['winner_id'] != 3:
                     self.currentLevelPureWin -= 1
                     # 如果爆掉，一定是最后哪一档已经连续输了3次的时候，爆掉了可以停止，可以重新开始打
-                    if self.currentLevelPureWin == -self.liftLevelLose and self.currentRank == len(self.levelSteps) - 1:
+                    if self.currentLevelPureWin == -self.liftLevelLose and self.currentRank == len(
+                            self.levelSteps) - 1:
                         result['buster'] += 1
                         result['is_buster'] = True
                         self.currentLevelPureWin = 0
