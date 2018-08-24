@@ -10,7 +10,8 @@ from .Rules.Fifteen import Fifteen
 ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
 ruleAlwaysXian = AlwaysXian(maxLevel=300)
 ruleDrop = Drop(stopWhenProfit=True, stopWhenProfitMoney=10000)
-ruleFifteen = Fifteen(stopProfit=30000)
+ruleFifteen30000 = Fifteen(stopProfit=30000, initLevel=2)
+ruleFifteen20000 = Fifteen(stopProfit=20000, initLevel=2)
 ruleDropThree = Drop(stopWhenProfit=True, stopWhenProfitMoney=4000, lowestLevelWin3TimeJumpToLevel=1)
 ruleDropOne = Drop(stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1, lowLevelWin=1, levelType=1, recursiveStake=True)
 
@@ -58,7 +59,8 @@ def play(playTime):
         player7 = Player('闲', money=10000, rule=4, ruleObject=ruleAlwaysXian)
         player8 = Player('%2d滴水' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDrop)
 
-        player9 = Player("%2d十五档" % (playTime + 1), money=10000, rule=4, ruleObject=ruleFifteen)
+        player9 = Player("%2d十五档" % (playTime + 1), money=10000, rule=4, ruleObject=ruleFifteen30000)
+
         player10 = Player('%2d滴水三进三出' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDropThree)
         player11 = Player('%2d滴水一进一出庄闲循环往复' % (playTime + 1), money=10000, rule=4, ruleObject=ruleDropOne)
         players = [
@@ -69,9 +71,9 @@ def play(playTime):
             # player5,
             # player7,
             # player8,
-            # player9,
+            player9,
             # player10,
-            player11
+            # player11
         ]
 
         # player2=Player('随机',money=310000,)
