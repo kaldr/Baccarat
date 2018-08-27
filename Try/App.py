@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.core.text import LabelBase, DEFAULT_FONT
+# from kivy.uix.button import ButtonBase
 from kivy.uix.screenmanager import Screen
 from os.path import dirname, join
 from kivy.lang import Builder
@@ -16,33 +17,14 @@ Config.set('kivy', 'window_icon', 'assets/icon.png')
 
 LabelBase.register(DEFAULT_FONT, 'PingFang.ttc')
 
-
-class BaccaratPlayerScreen(Screen):
-    fullscreen = BooleanProperty(False)
-
-    def add_widget(self, *args):
-        if 'content' in self.ids:
-            return self.ids.content.add_widget(*args)
-        return super(BaccaratPlayerScreen, self).add_widget(*args)
+from BaccaratPlayerScreen import BaccaratPlayerScreen
 
 
 class BaccaratPlayerApp(App):
-    index = NumericProperty(-1)
-    current_title = StringProperty()
-    time = NumericProperty(0)
-    show_sourcecode = BooleanProperty(False)
-    sourcecode = StringProperty()
-    screen_names = ListProperty([])
-    hierarchy = ListProperty([])
+    title = '百家乐模拟'
 
     def build(self):
-        self.title = '百家乐模拟'
-        self.screens = {}
-        self.available_screens = sorted(["baccarat_player", 'login', 'setting', 'random_player', 'history', 'export_detail', 'current_exporting'])
-        self.screen_names = self.available_screens
-        curdir = dirname(__file__)
-        self.available_screens = [join(curdir, 'screens', '{}.kv'.format(fn).lower()) for fn in self.available_screens]
-        # self.go_screen(1)
+        return BaccaratPlayerScreen()
 
     def on_pause(self):
         return True

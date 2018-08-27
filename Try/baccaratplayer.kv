@@ -1,126 +1,181 @@
 #:kivy 1.10.1
 #:import KivyLexer kivy.extras.highlight.KivyLexer
 #:import Factory kivy.factory.Factory
-#:set color_button (1,1,1,0.5)
-<Base>:
-    Button:
-        background_normal: 'button_normal.png'
-        background_down: 'button_down.png'
-        border: 30,30,30,30
-<ActionSpinnerOptions@SpinnerOption>
-    background_color: .7, .4, .4, 1
 
-<ActionSpinner@Spinner+ActionItem>
+
+<LeftLabel@Label>:
+    size_hint_y: None
+    height: '48dp'
+    size_hint_x: 3
+    color:1,1,1,0.7
     canvas.before:
         Color:
-            rgba: 0.128, 0.128, 0.128, 1
-        Rectangle:
+            rgba:0.39, 0.26, 0.37, 0.95
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius:[24,0,0,24]
+
+<RoundSpinnerOption@SpinnerOption>:
+    background_color:(0.42, 0.25, 0.32, 0)
+    # background_down:
+    #     RoundedRectangle:
+    #         pos: self.pos
+    #         size: self.size
+    #         radius:[0,24,24,0]
+
+<RoundSpinnerDropDown@DropDown>:
+    padding:[0,3]
+    canvas.before:
+        Color:
+            rgba:(0.27, 0.58, 1.00, 1.00)
+        RoundedRectangle:
             size: self.size
             pos: self.pos
-    border: 27, 20, 12, 12
-    background_normal: 'atlas://data/images/defaulttheme/action_group'
-    option_cls: Factory.ActionSpinnerOptions
+            radius: [0,24,24,24]
 
-<ActionDropdown>:
-    on_size: self.width = '220dp'
+<RoundSpinner@Spinner>:
+    size_hint_y: None
+    size_hint_x: 7
+    height: '48dp'
+    dropdown_cls:Factory.RoundSpinnerDropDown
+    option_cls: Factory.get("RoundSpinnerOption")
+    canvas.before:
+        Color:
+            rgba:(0.42, 0.25, 0.32, 0.90)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [0,24,24,0]
+    background_color:0,0,0,0
+    background_normal: 'atlas://data/images/defaulttheme/action_group'
+
 <RoundedButton@Button>:
     background_color: 0,0,0,0  # the last zero is the critical on, make invisible
     canvas.before:
         Color:
-            rgba: (.4,.4,.4,0.5) if self.state=='normal' else (0,.7,.7,0.5)  # visual feedback of press
+            rgba: (0.27, 0.58, 1.00, 1.00) if self.state=='normal' else (0,.7,.7,0.9)  # visual feedback of press
         RoundedRectangle:
             pos: self.pos
             size: self.size
-            radius: [20,]
+            radius: [24,]
+
 <BaccaratPlayerScreen>:
-    ScrollView:
-        do_scroll_x: False
-        do_scroll_y: False if root.fullscreen else (content.height > root.height - dp(16))
-        AnchorLayout:
-            size_hint_y: None
-            height: root.height if root.fullscreen else max(root.height, content.height)
-            GridLayout:
-                id: content
-                cols: 1
-                spacing: '8dp'
-                padding: '8dp'
-                size_hint: (1, 1) if root.fullscreen else (.8, None)
-                height: self.height if root.fullscreen else self.minimum_height
+    BoxLayout:
+        id:selector
+        orientation: 'vertical'
+        padding: 20
+        spacing: 5
+        canvas.before:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                size: self.size
+                source: 'assets/bg.jpg'
+
+        BoxLayout:
+            orientation:"horizontal"
+            BoxLayout:
+                LeftLabel:
+                    text:'选择打法'
+                RoundSpinner:
+                    id: player_type
+                    text:'请选择打法'
+                    values:('滴水式','递进式')
+                    on_text:
+                        root.selectPlayer(args[1])
+        BoxLayout:
+            orientation:"horizontal"
+            BoxLayout:
+                padding:[0,0,10,0]
+                LeftLabel:
+                    text:'起打档'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择起打档'
+                    values:('50','100')
+                    on_text:
+                        root.selectInitLevel(args[1])
+            BoxLayout:
+                LeftLabel:
+                    text:'最高档'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择最高档'
+                    values:('8000','10000')
+                    on_text:
+                        root.selectMaxLevel(args[1])
+            
+        BoxLayout:
+            orientation:"horizontal"
+            BoxLayout:
+                padding:[0,0,10,0]
+                LeftLabel:
+                    text:'第一次押注'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择第一次压庄还是闲'
+                    values:('庄','闲')
+                    on_text:
+                        root.selectFirstStake(args[1])
+            BoxLayout:
+                LeftLabel:
+                    text:'押注方式'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择押注的方式'
+                    values:('出庄打庄，出闲打闲','出庄打闲，出闲打庄','庄闲循环','随机打')
+                    on_text:
+                        root.selectStakeType(args[1])
+        BoxLayout:
+            orientation:"horizontal"
+            BoxLayout:
+                padding:[0,0,10,0]
+                LeftLabel:
+                    text:'跳档次数'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择净输赢几次后跳档'
+                    values:('3','5')
+                    on_text:
+                        root.selectLiftLevelLose(args[1])
+            BoxLayout:
+                LeftLabel:
+                    text:'最低档跳档'
+                RoundSpinner:
+                    id: init_level
+                    text:'最低档净赢后跳档'
+                    values:('100','150','200','300')
+                    on_text:
+                        root.selectStakeType(args[1])
+        BoxLayout:
+            orientation:"horizontal"
+            BoxLayout:
+                padding:[0,0,10,0]
+                LeftLabel:
+                    text:'止盈线'
+                RoundSpinner:
+                    id: init_level
+                    text:'请选择盈利多少后停止'
+                    values:('3000','5000')
+                    on_text:
+                        root.selectLiftLevelLose(args[1])
+            BoxLayout:
+                LeftLabel:
+                    text:'最后一档'
+                RoundSpinner:
+                    id: init_level
+                    text:'最后一档输了之后'
+                    values:('重新开始打','停止')
+                    on_text:
+                        root.selectStakeType(args[1])
+        BoxLayout
+            RoundedButton:
+                id:run
+                text:"模拟"
+                size_hint_y: None
+                height: '48dp'
+        
 
 
-GridLayout:
-    cols: 2
-    row:2
-    orientation: 'vertical'
 
-    canvas.before:
-        Color:
-            rgb: 1, 1, 1
-        Rectangle:
-            size: self.size
-            source: 'assets/bg.jpg'
-       
-    Spinner:
-        text:'请选择打法'
-        values:('滴水','满计')
-        background_color:color_button
-        size_hint_y: None
-        height: '48dp'
-        font_name:"assets/PingFang.ttc"
-    RoundedButton:
-        text:"一个按钮"
-        size_hint_y: None
-        height: '48dp'
-
-    # ActionBar:
-    #     ActionView:
-    #         id: av
-    #         ActionPrevious:
-    #             with_previous: (False if sm.current_screen.name == 'button' else True) if sm.current_screen else False
-    #             title: 'Showcase' + ('' if not app.current_title else ' - {}'.format(app.current_title))
-    #             on_release: app.go_hierarchy_previous()
-
-    #         ActionSpinner:
-    #             id: spnr
-    #             important: True
-    #             text: '选择模拟打法'
-    #             values: app.screen_names
-    #             on_text:
-    #                 if sm.current != args[1]:\
-    #                 idx = app.screen_names.index(args[1]);\
-    #                 app.go_screen(idx)
-    #         ActionToggleButton:
-    #             text: 'Toggle sourcecode'
-    #             icon: 'data/icons/bug.png'
-    #             on_release: app.toggle_source_code()
-    #         ActionButton:
-    #             text: 'Previous screen'
-    #             icon: 'data/icons/chevron-left.png'
-    #             on_release: app.go_previous_screen()
-
-    #         ActionButton:
-    #             text: 'Next screen'
-    #             icon: 'data/icons/chevron-right.png'
-    #             on_release: app.go_next_screen()
-    #             important: True
-
-    ScrollView:
-        id: sv
-        size_hint_y: None
-        height: 0
-
-        CodeInput:
-            id: sourcecode
-            lexer: KivyLexer()
-            text: app.sourcecode
-            readonly: True
-            size_hint_y: None
-            font_size: '12sp'
-            height: self.minimum_height
-
-    ScreenManager:
-        id: sm
-        on_current_screen:
-            spnr.text = args[1].name
-            idx = app.screen_names.index(args[1].name)
-            if idx > -1: app.hierarchy.append(idx)
