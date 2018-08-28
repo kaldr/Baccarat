@@ -120,7 +120,7 @@
     multiline:False
 
 <RoundNumberInput@RoundTextInput>:
-    on_text:root.search(args[0],args[1],self.id)
+    on_text:root.search(args[0],args[1],self.hint_text)
 
 <BaccaratPlayerScreen>:
     BoxLayout:
@@ -247,8 +247,10 @@
                         LeftLabel:
                             text:'止盈线'
                         RoundNumberInput:
+                            # on_text:self.search(args[0],args[1],self.hint_text)
                             id: profit_line
                             text:'请选择盈利多少后停止'
+                            hint_text:'请选择盈利多少后停止'
                         
                     BoxLayout:
                         LeftLabel:

@@ -8,6 +8,7 @@ class RoundTextInput(TextInput):
 
 
 class RoundNumberInput(RoundTextInput):
+    id = ObjectProperty(None)
     input_type = OptionProperty('number')
     input_filter = ObjectProperty('int')
 
