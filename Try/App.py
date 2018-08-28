@@ -8,10 +8,10 @@ from kivy.properties import NumericProperty, StringProperty, BooleanProperty, Li
 from kivy.config import Config
 from kivy.resources import resource_add_path
 resource_add_path('./assets')
-
+Config.set("kivy", "keyboard_mode", 'system')
 Config.set('graphics', 'resizable', False)
-Config.set('graphics', 'width', '772')
-Config.set('graphics', 'height', '500')
+Config.set('graphics', 'width', '926')
+Config.set('graphics', 'height', '600')
 Config.set('kivy', 'window_icon', 'assets/icon.png')
 # Config.setdefault('graphics', 'default_font', ['Roboto', 'PingFang.ttc'])
 

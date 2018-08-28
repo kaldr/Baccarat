@@ -2,22 +2,29 @@
 #:import KivyLexer kivy.extras.highlight.KivyLexer
 #:import Factory kivy.factory.Factory
 
-
 <LeftLabel@Label>:
     size_hint_y: None
+    font_size: 14
     height: '48dp'
-    size_hint_x: 3
-    color:1,1,1,0.7
+    size_hint_x: 4
+    color:1,1,1,0.8
     canvas.before:
         Color:
-            rgba:0.39, 0.26, 0.37, 0.95
+            rgba:(0, 0, 0, 0.80)
         RoundedRectangle:
             pos: self.pos
             size: self.size
             radius:[24,0,0,24]
 
 <RoundSpinnerOption@SpinnerOption>:
+    font_size: 14
     background_color:(0.42, 0.25, 0.32, 0)
+    canvas.before:
+        Color:
+            rgba:1,1,1,0.1
+        Line:
+            width:1
+            points: self.x+12,self.y+1,self.x+self.width-36,self.y+1
     # background_down:
     #     RoundedRectangle:
     #         pos: self.pos
@@ -28,15 +35,24 @@
     padding:[0,3]
     canvas.before:
         Color:
-            rgba:(0.27, 0.58, 1.00, 1.00)
+            rgba:(0.28, 0.14, 0.21, 1.00)
         RoundedRectangle:
-            size: self.size
+            size: (self.size[0]-24,self.size[1])
             pos: self.pos
-            radius: [0,24,24,24]
-
+            radius: [0,0,12,12]
+<BlueRoundSpinnerDropDown@DropDown>:
+    padding:[0,3]
+    canvas.before:
+        Color:
+            rgba:(0.08, 0.18, 0.82, 1.00)
+        RoundedRectangle:
+            size: (self.size[0]-24,self.size[1])
+            pos: self.pos
+            radius: [0,0,12,12]
 <RoundSpinner@Spinner>:
+    font_size: 14
     size_hint_y: None
-    size_hint_x: 7
+    size_hint_x: 6
     height: '48dp'
     dropdown_cls:Factory.RoundSpinnerDropDown
     option_cls: Factory.get("RoundSpinnerOption")
@@ -48,8 +64,22 @@
             pos: self.pos
             radius: [0,24,24,0]
     background_color:0,0,0,0
-    background_normal: 'atlas://data/images/defaulttheme/action_group'
 
+<BlueRoundSpinner@Spinner>:
+    font_size: 14
+    size_hint_y: None
+    size_hint_x: 6
+    height: '48dp'
+    dropdown_cls:Factory.BlueRoundSpinnerDropDown
+    option_cls: Factory.get("RoundSpinnerOption")
+    canvas.before:
+        Color:
+            rgba:(0.17, 0.33, 0.94, 0.8)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [0,24,24,0]
+    background_color:0,0,0,0
 <RoundedButton@Button>:
     background_color: 0,0,0,0  # the last zero is the critical on, make invisible
     canvas.before:
@@ -60,10 +90,42 @@
             size: self.size
             radius: [24,]
 
+<RoundTextInput@TextInput>:
+    canvas.before:
+        Color:
+            rgba:(0, 0, 0, 0.8)
+        Line:
+            width:1
+            points: self.x,self.y+1,self.x+self.width-20,self.y+1
+        Color:
+            rgba:(0.46, 0.42, 0.56, 0.80)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [0,24,24,0]
+        Color:
+            rgba: 1,1,1,1
+    font_size: 14
+    size_hint_y: None
+    size_hint_x: 6
+    height: '48dp'
+    foreground_color: 1,1,1,1
+    # disabled_foreground_color: 1,1,1,0.3
+    color:1,1,1,1
+    background_color: 0, 0, 0, 0
+    hint_text_color:1,1,1,1
+    cursor_color: 1,1,1,1
+    line_height:48
+    padding:(14,)
+    multiline:False
+
+<RoundNumberInput@RoundTextInput>:
+    on_text:root.search(args[0],args[1],self.id)
+
 <BaccaratPlayerScreen>:
     BoxLayout:
-        id:selector
-        orientation: 'vertical'
+        id:screen
+        orientation:"vertical"
         padding: 20
         spacing: 5
         canvas.before:
@@ -71,110 +133,187 @@
                 rgb: 1, 1, 1
             Rectangle:
                 size: self.size
-                source: 'assets/bg.jpg'
+                source: "bg1.jpg"
+        BoxLayout:
+            id:panel
+            orientation: 'vertical'
 
-        BoxLayout:
-            orientation:"horizontal"
             BoxLayout:
-                LeftLabel:
-                    text:'选择打法'
-                RoundSpinner:
-                    id: player_type
-                    text:'请选择打法'
-                    values:('滴水式','递进式')
-                    on_text:
-                        root.selectPlayer(args[1])
-        BoxLayout:
-            orientation:"horizontal"
+                id:selector
+                orientation: 'vertical'
+                BoxLayout:
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'选择打法'
+                        BlueRoundSpinner:
+                            id: player_type
+                            text:root.currentPlayer
+                            values:('滴水式','递进式')
+                            on_text:
+                                root.selectPlayer(args[1])
+                    BoxLayout:
+                        
+                        LeftLabel:
+                            text:'导出路径'
+                        RoundTextInput:
+                            id: output_path
+                            text:'请输入导出的路径'
+                BoxLayout:
+                    orientation:"horizontal"
+                    
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'Excel个数'
+                        RoundNumberInput:
+                            id: excel_count
+                            text:'100'
+                    BoxLayout:
+                        LeftLabel:
+                            text:'每个Excel轮数'
+                        RoundNumberInput:
+                            id: excel_round_count
+                            text:'100'
+                BoxLayout:
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'起打档'
+                        RoundSpinner:
+                            id: init_level
+                            hint_text: '请选择起打档'
+                            values:('50','100')
+                            on_text:
+                                root.selectInitLevel(args[1])
+                    BoxLayout:
+                        LeftLabel:
+                            text:'最高档'
+                        RoundSpinner:
+                            id: init_level
+                            text:'请选择最高档'
+                            values:('8000','10000')
+                            on_text:
+                                root.selectMaxLevel(args[1])
+                    
+                BoxLayout:
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'第一次押注'
+                        RoundSpinner:
+                            id: first_stake
+                            text:root.first_stake
+                            values:('庄','闲')
+                            on_text:
+                                root.selectFirstStake(args[1])
+                    BoxLayout:
+                        LeftLabel:
+                            text:'押注方式'
+                        RoundSpinner:
+                            id: stake_method
+
+                            text:root.stake_method
+                            values:('出庄打庄，出闲打闲','出庄打闲，出闲打庄','庄闲循环','随机打')
+                            on_text:
+                                root.selectStakeType(args[1])
+                BoxLayout:
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'跳档时净输赢次数'
+                        RoundNumberInput:
+                            id: change_level_win_or_lose_time
+                            focus: True
+                            text:'请选择净输赢几次后跳档'
+
+                    BoxLayout:
+                        LeftLabel:
+                            text:'最低档赢三次后打'
+                        RoundSpinner:
+                            id: init_level
+                            text:'最低档净赢后跳档'
+                            values:('100','150','200','300')
+                            on_text:
+                                root.selectStakeType(args[1])
+                BoxLayout:
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'止盈线'
+                        RoundNumberInput:
+                            id: profit_line
+                            text:'请选择盈利多少后停止'
+                        
+                    BoxLayout:
+                        LeftLabel:
+                            text:'最后一档'
+                        RoundSpinner:
+                            id: init_level
+                            text:'最后一档输了之后'
+                            values:('重新开始打','停止')
+                            on_text:
+                                root.selectStakeType(args[1])
+                BoxLayout:
+                    hideable:root.fifteen
+                    id:fifteen_n1
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'累计押注n次后计算'
+                        RoundNumberInput:
+                            disabled: root.fifteen
+                            id: stay_time
+                            text:'请输入计算输赢时押注次数'
+
+                    BoxLayout:
+                        LeftLabel:
+                            text:'最低档赢n次后跳档'
+                        RoundNumberInput:
+                            disabled: root.fifteen
+                            id: lowest_level_change_win_time
+                            text:'请输入最低档赢的次数'
+
+                BoxLayout:
+                    id:fifteen_n2
+                    hideable:root.fifteen
+                    orientation:"horizontal"
+                    BoxLayout:
+                        padding:[0,0,10,0]
+                        LeftLabel:
+                            text:'最低档赢n次后跳的档'
+                        RoundNumberInput:
+                            disabled: root.fifteen
+                            id: lowest_level_change_level
+                            text:'请输入最低档赢n次后跳的档'
+                    BoxLayout:
+                        LeftLabel:
+                            text:'输n次跳档的方式'
+                        RoundSpinner:
+                            id: init_level
+                            text:'输指定次数的方式'
+                            values:('净输n次','累计输n次')
+                            on_text:
+                                root.selectStakeType(args[1])
             BoxLayout:
-                padding:[0,0,10,0]
-                LeftLabel:
-                    text:'起打档'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择起打档'
-                    values:('50','100')
-                    on_text:
-                        root.selectInitLevel(args[1])
-            BoxLayout:
-                LeftLabel:
-                    text:'最高档'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择最高档'
-                    values:('8000','10000')
-                    on_text:
-                        root.selectMaxLevel(args[1])
-            
-        BoxLayout:
-            orientation:"horizontal"
-            BoxLayout:
-                padding:[0,0,10,0]
-                LeftLabel:
-                    text:'第一次押注'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择第一次压庄还是闲'
-                    values:('庄','闲')
-                    on_text:
-                        root.selectFirstStake(args[1])
-            BoxLayout:
-                LeftLabel:
-                    text:'押注方式'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择押注的方式'
-                    values:('出庄打庄，出闲打闲','出庄打闲，出闲打庄','庄闲循环','随机打')
-                    on_text:
-                        root.selectStakeType(args[1])
-        BoxLayout:
-            orientation:"horizontal"
-            BoxLayout:
-                padding:[0,0,10,0]
-                LeftLabel:
-                    text:'跳档次数'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择净输赢几次后跳档'
-                    values:('3','5')
-                    on_text:
-                        root.selectLiftLevelLose(args[1])
-            BoxLayout:
-                LeftLabel:
-                    text:'最低档跳档'
-                RoundSpinner:
-                    id: init_level
-                    text:'最低档净赢后跳档'
-                    values:('100','150','200','300')
-                    on_text:
-                        root.selectStakeType(args[1])
-        BoxLayout:
-            orientation:"horizontal"
-            BoxLayout:
-                padding:[0,0,10,0]
-                LeftLabel:
-                    text:'止盈线'
-                RoundSpinner:
-                    id: init_level
-                    text:'请选择盈利多少后停止'
-                    values:('3000','5000')
-                    on_text:
-                        root.selectLiftLevelLose(args[1])
-            BoxLayout:
-                LeftLabel:
-                    text:'最后一档'
-                RoundSpinner:
-                    id: init_level
-                    text:'最后一档输了之后'
-                    values:('重新开始打','停止')
-                    on_text:
-                        root.selectStakeType(args[1])
+                id:progressing
+                size_hint_y: None
+                Label:
+                    text:"OK"
         BoxLayout
+            id:run
+            size_hint_y: None
             RoundedButton:
-                id:run
                 text:"模拟"
                 size_hint_y: None
                 height: '48dp'
+                on_press:root.run_simulation()
         
 
 
