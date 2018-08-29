@@ -120,7 +120,7 @@
     multiline:False
 
 <RoundNumberInput@RoundTextInput>:
-    on_text:root.search(args[0],args[1],self.hint_text)
+    on_text:root.set_params(args[0],args[1],self.name_id)
 
 <BaccaratPlayerScreen>:
     BoxLayout:
@@ -150,7 +150,7 @@
                         BlueRoundSpinner:
                             id: player_type
                             text:root.currentPlayer
-                            values:('滴水式','递进式')
+                            values:root.params['type']
                             on_text:
                                 root.selectPlayer(args[1])
                     BoxLayout:
@@ -159,7 +159,9 @@
                             text:'导出路径'
                         RoundTextInput:
                             id: output_path
-                            text:'请输入导出的路径'
+                            text:root.params['output_path']
+                            name_id: 'output_path'
+                            hint_text:'请输入导出的路径'
                 BoxLayout:
                     orientation:"horizontal"
                     
@@ -168,14 +170,18 @@
                         LeftLabel:
                             text:'Excel个数'
                         RoundNumberInput:
+                            name_id:'excel_count'
                             id: excel_count
-                            text:'100'
+                            hint_text:'输入模拟次数，每模拟导出一个Excel'
+                            text:root.params['excel_count']
                     BoxLayout:
                         LeftLabel:
-                            text:'每个Excel轮数'
+                            text:'每Excel押注轮数'
                         RoundNumberInput:
                             id: excel_round_count
-                            text:'100'
+                            name_id: 'excel_round_count'
+                            hint_text:'输入轮数，每轮60~75次押注'
+                            text:root.params['excel_round_count']
                 BoxLayout:
                     orientation:"horizontal"
                     BoxLayout:
@@ -184,15 +190,13 @@
                             text:'起打档'
                         RoundSpinner:
                             id: init_level
-                            hint_text: '请选择起打档'
-                            values:('50','100')
+                            text:root.params['init_level']
                             on_text:
                                 root.selectInitLevel(args[1])
                     BoxLayout:
                         LeftLabel:
                             text:'最高档'
                         RoundSpinner:
-                            id: init_level
                             text:'请选择最高档'
                             values:('8000','10000')
                             on_text:
@@ -228,8 +232,10 @@
                             text:'跳档时净输赢次数'
                         RoundNumberInput:
                             id: change_level_win_or_lose_time
-                            focus: True
-                            text:'请选择净输赢几次后跳档'
+                            name_id: 'change_level_win_or_lose_time'
+                            hint_text:'请选择净输赢几次后跳档'
+                            text:root.params['change_level_win_or_lose_time']
+
 
                     BoxLayout:
                         LeftLabel:
@@ -249,8 +255,10 @@
                         RoundNumberInput:
                             # on_text:self.search(args[0],args[1],self.hint_text)
                             id: profit_line
-                            text:'请选择盈利多少后停止'
+                            name_id:'profit_line'
+                            text:root.params['profit_line']
                             hint_text:'请选择盈利多少后停止'
+
                         
                     BoxLayout:
                         LeftLabel:
@@ -272,15 +280,19 @@
                         RoundNumberInput:
                             disabled: root.fifteen
                             id: stay_time
-                            text:'请输入计算输赢时押注次数'
+                            name_id: 'stay_time'
+                            hint_text:'请输入计算输赢时押注次数'
+                            text:root.params['stay_time']
 
                     BoxLayout:
                         LeftLabel:
                             text:'最低档赢n次后跳档'
                         RoundNumberInput:
                             disabled: root.fifteen
+                            name_id: 'lowest_level_change_win_time'
                             id: lowest_level_change_win_time
-                            text:'请输入最低档赢的次数'
+                            hint_text:'请输入最低档赢的次数'
+                            text:root.params['lowest_level_change_win_time']
 
                 BoxLayout:
                     id:fifteen_n2
@@ -293,7 +305,9 @@
                         RoundNumberInput:
                             disabled: root.fifteen
                             id: lowest_level_change_level
-                            text:'请输入最低档赢n次后跳的档'
+                            name_id: 'lowest_level_change_level'
+                            hint_text:'请输入最低档赢n次后跳的档'
+                            text:root.params['lowest_level_change_level']
                     BoxLayout:
                         LeftLabel:
                             text:'输n次跳档的方式'
@@ -308,15 +322,20 @@
                 size_hint_y: None
                 Label:
                     text:"OK"
-        BoxLayout
+        BoxLayout:
+            orientation:"vertical"
             id:run
+            padding:(0,40,0,0)
             size_hint_y: None
+            height:'120dp'
+
             RoundedButton:
                 text:"模拟"
                 size_hint_y: None
                 height: '48dp'
                 on_press:root.run_simulation()
-        
+            Label:
+                text:'共模拟20万次，导出100个Excel'
 
 
 

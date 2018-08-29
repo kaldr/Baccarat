@@ -7,21 +7,25 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty, StringProperty, BooleanProperty, ListProperty
 from kivy.config import Config
 from kivy.resources import resource_add_path
-resource_add_path('./assets')
+resource_add_path('./GUI/assets')
 Config.set("kivy", "keyboard_mode", 'system')
 Config.set('graphics', 'resizable', False)
-Config.set('graphics', 'width', '926')
-Config.set('graphics', 'height', '600')
-Config.set('kivy', 'window_icon', 'assets/icon.png')
+Config.set('graphics', 'width', '1003')
+Config.set('graphics', 'height', '650')
+Config.set('kivy', 'window_icon', 'icon.png')
 # Config.setdefault('graphics', 'default_font', ['Roboto', 'PingFang.ttc'])
 
 LabelBase.register(DEFAULT_FONT, 'PingFang.ttc')
 
-from BaccaratPlayerScreen import BaccaratPlayerScreen
+from GUI.BaccaratPlayerScreen import BaccaratPlayerScreen
 
 
 class BaccaratPlayerApp(App):
     title = '百家乐模拟'
+
+    def run(self):
+        self.load_kv('./GUI/baccaratplayerscreen.kv')
+        super(BaccaratPlayerApp, self).run()
 
     def build(self):
         return BaccaratPlayerScreen()
