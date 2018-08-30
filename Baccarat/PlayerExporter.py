@@ -1,4 +1,5 @@
 import xlsxwriter
+import os
 
 
 class PlayerExporter:
@@ -6,16 +7,15 @@ class PlayerExporter:
         # 玩家
         self.player = player
 
-    def get_filename(self):
+    def get_filename(self, idx=0):
         winStr = '赢'
         if self.player.current_money - self.player.money < 0:
             winStr = '输'
-        self.filename = "%s_%s_%.1f" % (self.player.name, winStr, (
-            self.player.current_money - self.player.money))
+        self.filename = "%s_%s_%s_%.1f" % (self.player.name, idx, winStr, (self.player.current_money - self.player.money))
 
-    def export_player(self):
-        self.get_filename()
-        workbook = self.player_workbook(self.filename)
+    def export_player(self, folder=False, idx=0):
+        self.get_filename(idx=idx)
+        workbook = self.player_workbook(self.filename, folder=folder)
         workbook.set_size(1200, 800)
         history_sheet = workbook.add_worksheet('押注历史')
         chart_sheet = workbook.add_worksheet('曲线图')
@@ -25,37 +25,25 @@ class PlayerExporter:
         self.chart_sheet(chart_sheet, workbook)
         workbook.close()
 
-    def player_workbook(self, filename):
-        path = './Export/%s.xlsx' % filename
+    def player_workbook(self, filename, folder=False):
+
+        if folder:
+            if not folder.endswith("/"):
+                folder = folder + '/'
+            path = '%s%s.xlsx' % (folder, filename)
+        else:
+            path = './Export/%s.xlsx' % filename
+        file_dir = os.path.split(path)[0]
+        if not os.path.isdir(file_dir):
+            os.makedirs(file_dir)
+        print(path)
         workbook = xlsxwriter.Workbook(path)
-        formatZhuang = workbook.add_format({
-            "font_color": 'white',
-            'bold': 1,
-            'bg_color': 'blue'
-        })
-        formatXian = workbook.add_format({
-            "font_color": 'white',
-            'bold': 1,
-            'bg_color': 'purple'
-        })
-        formatWin = workbook.add_format({
-            "font_color": 'white',
-            'bold': 1,
-            'bg_color': 'red'
-        })
-        formatLose = workbook.add_format({
-            "font_color": 'white',
-            'bold': 1,
-            'bg_color': 'green'
-        })
-        formatZhuangStake = workbook.add_format({
-            "font_color": 'red',
-            'bold': 1
-        })
-        formatXianStake = workbook.add_format({
-            "font_color": 'blue',
-            'bold': 1
-        })
+        formatZhuang = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'blue'})
+        formatXian = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'purple'})
+        formatWin = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'red'})
+        formatLose = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'green'})
+        formatZhuangStake = workbook.add_format({"font_color": 'red', 'bold': 1})
+        formatXianStake = workbook.add_format({"font_color": 'blue', 'bold': 1})
         formatHeStake = workbook.add_format({"font_color": 'green', 'bold': 1})
         self.formats = {
             'zhuang': formatZhuang,
@@ -69,48 +57,12 @@ class PlayerExporter:
         return workbook
 
     def format_history_sheet(self, sheet, rowCount):
-        sheet.conditional_format(
-            "H1:I%d" % rowCount, {
-                'type': 'text',
-                'criteria': 'begins with',
-                'value': u'庄',
-                'format': self.formats['zhuang']
-            })
-        sheet.conditional_format(
-            "H1:I%d" % rowCount, {
-                'type': 'text',
-                'criteria': 'begins with',
-                'value': u'闲',
-                'format': self.formats['xian']
-            })
-        sheet.conditional_format(
-            "J1:L%d" % rowCount, {
-                'type': 'cell',
-                'criteria': ">",
-                'value': '0',
-                'format': self.formats['win']
-            })
-        sheet.conditional_format(
-            "J1:L%d" % rowCount, {
-                'type': 'cell',
-                'criteria': "<",
-                'value': '0',
-                'format': self.formats['lose']
-            })
-        sheet.conditional_format(
-            "N1:N%d" % rowCount, {
-                'type': 'cell',
-                'criteria': ">",
-                'value': '0',
-                'format': self.formats['win']
-            })
-        sheet.conditional_format(
-            "N1:N%d" % rowCount, {
-                'type': 'cell',
-                'criteria': "<",
-                'value': '0',
-                'format': self.formats['lose']
-            })
+        sheet.conditional_format("H1:I%d" % rowCount, {'type': 'text', 'criteria': 'begins with', 'value': u'庄', 'format': self.formats['zhuang']})
+        sheet.conditional_format("H1:I%d" % rowCount, {'type': 'text', 'criteria': 'begins with', 'value': u'闲', 'format': self.formats['xian']})
+        sheet.conditional_format("J1:L%d" % rowCount, {'type': 'cell', 'criteria': ">", 'value': '0', 'format': self.formats['win']})
+        sheet.conditional_format("J1:L%d" % rowCount, {'type': 'cell', 'criteria': "<", 'value': '0', 'format': self.formats['lose']})
+        sheet.conditional_format("N1:N%d" % rowCount, {'type': 'cell', 'criteria': ">", 'value': '0', 'format': self.formats['win']})
+        sheet.conditional_format("N1:N%d" % rowCount, {'type': 'cell', 'criteria': "<", 'value': '0', 'format': self.formats['lose']})
 
     def history_sheet(self, sheet):
         data = self.player.result_history
@@ -167,67 +119,37 @@ class PlayerExporter:
         chart1 = workbook.add_chart({'type': 'line'})
         sheet.insert_chart('A15', chart1)
         chart1.add_series({
-            'categories':
-            '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
-            'values':
-            '=押注历史!$N$1:$N$%d' % len(self.player.result_history),
-            'overlap':
-            10,
+            'categories': '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
+            'values': '=押注历史!$N$1:$N$%d' % len(self.player.result_history),
+            'overlap': 10,
         })
         chart1.set_legend({'none': True})
         chart1.set_x_axis({'visible': False})
         chart1.set_title({'name': '盈利'})
-        chart1.set_plotarea({
-            'layout': {
-                'x': 0,
-                'y': 0,
-                'width': 1,
-                'height': 1
-            }
-        })
+        chart1.set_plotarea({'layout': {'x': 0, 'y': 0, 'width': 1, 'height': 1}})
 
         chart2 = workbook.add_chart({'type': 'column'})
         sheet.insert_chart('A1', chart2)
         chart2.add_series({
-            'categories':
-            '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
-            'values':
-            '=押注历史!$L$1:$L$%d' % len(self.player.result_history),
-            'overlap':
-            10,
+            'categories': '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
+            'values': '=押注历史!$L$1:$L$%d' % len(self.player.result_history),
+            'overlap': 10,
         })
         chart2.set_legend({'none': True})
         chart2.set_x_axis({'visible': False})
         chart2.set_title({'name': '净输赢'})
-        chart2.set_plotarea({
-            'layout': {
-                'x': 0,
-                'y': 0,
-                'width': 1,
-                'height': 1
-            }
-        })
+        chart2.set_plotarea({'layout': {'x': 0, 'y': 0, 'width': 1, 'height': 1}})
         chart3 = workbook.add_chart({'type': 'line'})
         sheet.insert_chart('A30', chart3)
         chart3.add_series({
-            'categories':
-            '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
-            'values':
-            '=押注历史!$M$1:$M$%d' % len(self.player.result_history),
-            'overlap':
-            10,
+            'categories': '=押注历史!$A$1:$A$%d' % len(self.player.result_history),
+            'values': '=押注历史!$M$1:$M$%d' % len(self.player.result_history),
+            'overlap': 10,
         })
         chart3.set_legend({'none': True})
         chart3.set_x_axis({'visible': False})
         chart3.set_title({'name': '押注'})
-        chart3.set_plotarea({
-            'layout': {
-                'x': 0,
-                'y': 0,
-                'width': 1,
-                'height': 1
-            }
-        })
+        chart3.set_plotarea({'layout': {'x': 0, 'y': 0, 'width': 1, 'height': 1}})
         # chart4 = workbook.add_chart({'type': 'line'})
         # sheet.insert_chart('A15', chart4)
         # chart4.add_series({
@@ -294,9 +216,7 @@ class PlayerExporter:
                 sheet.write(row, 0, u'第%d局' % d['baccarat_id'])
                 last_title_row = current_baccarat_row
                 if current_baccarat_id > 1:
-                    statistic = '本局赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (
-                        win_count, lose_count, zhuang_count, xian_count,
-                        he_count)
+                    statistic = '本局赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (win_count, lose_count, zhuang_count, xian_count, he_count)
                     sheet.write(last_title_row - 1, 0, u'%s' % statistic)
                 row += 2
                 current_baccarat_row = row
@@ -365,12 +285,10 @@ class PlayerExporter:
                 col += 1
                 sheet.write(row, col, d['win_or_lose'])
         last_title_row = current_baccarat_row
-        statistic = '本局赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (
-            win_count, lose_count, zhuang_count, xian_count, he_count)
+        statistic = '本局赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (win_count, lose_count, zhuang_count, xian_count, he_count)
         sheet.write(last_title_row - 1, 0, u'%s' % statistic)
 
-        total_statistic = '盈利%s，最大净赢%d，最大净输%d，赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (
-            self.player.current_money - self.player.money, max_pure_win,
-            max_pure_lose, total_win_count, total_lose_count,
-            total_zhuang_count, total_xian_count, total_he_count)
+        total_statistic = '盈利%s，最大净赢%d，最大净输%d，赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (self.player.current_money - self.player.money, max_pure_win,
+                                                                             max_pure_lose, total_win_count, total_lose_count, total_zhuang_count,
+                                                                             total_xian_count, total_he_count)
         sheet.write(0, 0, u'%s' % total_statistic)

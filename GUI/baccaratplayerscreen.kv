@@ -64,6 +64,7 @@
             pos: self.pos
             radius: [0,24,24,0]
     background_color:0,0,0,0
+    on_text:self.set_params(args[0],args[1],self.name_id)
 
 <BlueRoundSpinner@Spinner>:
     font_size: 14
@@ -80,6 +81,7 @@
             pos: self.pos
             radius: [0,24,24,0]
     background_color:0,0,0,0
+
 <RoundedButton@Button>:
     background_color: 0,0,0,0  # the last zero is the critical on, make invisible
     canvas.before:
@@ -118,22 +120,22 @@
     line_height:48
     padding:(14,)
     multiline:False
-
-<RoundNumberInput@RoundTextInput>:
     on_text:root.set_params(args[0],args[1],self.name_id)
 
-<BaccaratPlayerScreen>:
+<RoundNumberInput@RoundTextInput>
+<BaccaratPlayerScreen@Screen>:
+    name:'setting'
     BoxLayout:
         id:screen
         orientation:"vertical"
         padding: 20
         spacing: 5
-        canvas.before:
-            Color:
-                rgb: 1, 1, 1
-            Rectangle:
-                size: self.size
-                source: "bg1.jpg"
+        # canvas.before:
+        #     Color:
+        #         rgb: 1, 1, 1
+        #     Rectangle:
+        #         size: self.size
+        #         source: "bg2.jpg"
         BoxLayout:
             id:panel
             orientation: 'vertical'
@@ -154,7 +156,6 @@
                             on_text:
                                 root.selectPlayer(args[1])
                     BoxLayout:
-                        
                         LeftLabel:
                             text:'导出路径'
                         RoundTextInput:
@@ -170,6 +171,7 @@
                         LeftLabel:
                             text:'Excel个数'
                         RoundNumberInput:
+                            link_ob:root
                             name_id:'excel_count'
                             id: excel_count
                             hint_text:'输入模拟次数，每模拟导出一个Excel'
@@ -179,6 +181,7 @@
                             text:'每Excel押注轮数'
                         RoundNumberInput:
                             id: excel_round_count
+                            link_ob:root
                             name_id: 'excel_round_count'
                             hint_text:'输入轮数，每轮60~75次押注'
                             text:root.params['excel_round_count']
@@ -190,17 +193,19 @@
                             text:'起打档'
                         RoundSpinner:
                             id: init_level
+                            name_id:'init_level'
+                            values:[value for value in root.params['init_levels']]
                             text:root.params['init_level']
-                            on_text:
-                                root.selectInitLevel(args[1])
+                            
                     BoxLayout:
                         LeftLabel:
                             text:'最高档'
                         RoundSpinner:
-                            text:'请选择最高档'
-                            values:('8000','10000')
-                            on_text:
-                                root.selectMaxLevel(args[1])
+                            id:max_level
+                            name_id:'max_level'
+                            hint_text:'请选择最高档'
+                            text:root.params['max_level']
+                            values:[value for value in root.params['max_levels']]
                     
                 BoxLayout:
                     orientation:"horizontal"
@@ -210,20 +215,19 @@
                             text:'第一次押注'
                         RoundSpinner:
                             id: first_stake
+                            name_id:'first_stake'
                             text:root.first_stake
                             values:('庄','闲')
-                            on_text:
-                                root.selectFirstStake(args[1])
+
                     BoxLayout:
                         LeftLabel:
                             text:'押注方式'
                         RoundSpinner:
                             id: stake_method
-
+                            name_id:'stake_method'
                             text:root.stake_method
                             values:('出庄打庄，出闲打闲','出庄打闲，出闲打庄','庄闲循环','随机打')
-                            on_text:
-                                root.selectStakeType(args[1])
+
                 BoxLayout:
                     orientation:"horizontal"
                     BoxLayout:
@@ -231,6 +235,7 @@
                         LeftLabel:
                             text:'跳档时净输赢次数'
                         RoundNumberInput:
+                            link_ob:root
                             id: change_level_win_or_lose_time
                             name_id: 'change_level_win_or_lose_time'
                             hint_text:'请选择净输赢几次后跳档'
@@ -239,13 +244,15 @@
 
                     BoxLayout:
                         LeftLabel:
-                            text:'最低档赢三次后打'
+                            id:lowest_level_win_n_and_jump_to_level_label
+                            text:root.params['texts']['lowest_level_win_n_and_jump_to_level']
                         RoundSpinner:
-                            id: init_level
-                            text:'最低档净赢后跳档'
-                            values:('100','150','200','300')
-                            on_text:
-                                root.selectStakeType(args[1])
+                            id: lowest_level_win_n_and_jump_to_level
+                            name_id:'lowest_level_win_n_and_jump_to_level'
+                            hint_text:'最低档净赢后跳档'
+                            text:root.params['lowest_level_win_n_and_jump_to_level']
+                            values:root.params['lowest_level_win_n_and_jump_to_levels']
+
                 BoxLayout:
                     orientation:"horizontal"
                     BoxLayout:
@@ -262,13 +269,13 @@
                         
                     BoxLayout:
                         LeftLabel:
-                            text:'最后一档'
+                            text:'最后一档输掉之后'
                         RoundSpinner:
-                            id: init_level
-                            text:'最后一档输了之后'
+                            id: last_level
+                            name_id:'last_level'
+                            text:root.params['last_level']
                             values:('重新开始打','停止')
-                            on_text:
-                                root.selectStakeType(args[1])
+
                 BoxLayout:
                     hideable:root.fifteen
                     id:fifteen_n1
@@ -276,7 +283,7 @@
                     BoxLayout:
                         padding:[0,0,10,0]
                         LeftLabel:
-                            text:'累计押注n次后计算'
+                            text:'[递进式]累计押注次数'
                         RoundNumberInput:
                             disabled: root.fifteen
                             id: stay_time
@@ -286,7 +293,8 @@
 
                     BoxLayout:
                         LeftLabel:
-                            text:'最低档赢n次后跳档'
+                            id:lowest_level_change_win_time_label
+                            text:root.params['texts']['lowest_level_change_win_time']
                         RoundNumberInput:
                             disabled: root.fifteen
                             name_id: 'lowest_level_change_win_time'
@@ -301,7 +309,8 @@
                     BoxLayout:
                         padding:[0,0,10,0]
                         LeftLabel:
-                            text:'最低档赢n次后跳的档'
+                            id:lowest_level_change_level_label
+                            text:root.params['texts']['lowest_level_change_level']
                         RoundNumberInput:
                             disabled: root.fifteen
                             id: lowest_level_change_level
@@ -310,18 +319,15 @@
                             text:root.params['lowest_level_change_level']
                     BoxLayout:
                         LeftLabel:
-                            text:'输n次跳档的方式'
+                            id:jump_method_label
+                            text:root.params['texts']['jump_method']
                         RoundSpinner:
-                            id: init_level
-                            text:'输指定次数的方式'
-                            values:('净输n次','累计输n次')
-                            on_text:
-                                root.selectStakeType(args[1])
-            BoxLayout:
-                id:progressing
-                size_hint_y: None
-                Label:
-                    text:"OK"
+                            id:jump_method
+                            name_id: 'jump_method'
+                            hint_text:'输x次的计数方式'
+                            text:root.params['jump_method']
+                            values:root.params['values']['jump_method']
+
         BoxLayout:
             orientation:"vertical"
             id:run
@@ -335,7 +341,18 @@
                 height: '48dp'
                 on_press:root.run_simulation()
             Label:
-                text:'共模拟20万次，导出100个Excel'
-
-
-
+                id:bottom_label
+                text:root.params['texts']['bottom']
+<RunningScreen>
+    BoxLayout:
+        id:running_screen
+        orientation:"vertical"
+        padding: 20
+        spacing: 5
+        canvas.before:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                size: self.size
+                source: "bg2.jpg"
+    

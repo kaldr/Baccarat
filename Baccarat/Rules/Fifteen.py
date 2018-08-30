@@ -2,12 +2,18 @@ from .Rule import Rule
 
 
 class Fifteen(Rule):
-    levels = [[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3400, 3800, 4200, 4600, 5000, 5400, 5800, 6200, 6600, 7200, 7600, 8000]]
+    levels = [[
+        100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3400, 3800, 4200, 4600, 5000,
+        5400, 5800, 6200, 6600, 7200, 7600, 8000
+    ]]
 
     def __init__(
             self,
             initLevel=0,
             stay_times=15,
+            randomStake=False,
+            reverseStake=False,
+            recursiveStake=False,
             levelType=0,
             money=10000,
             stopWhenProfit=True,
@@ -36,7 +42,10 @@ class Fifteen(Rule):
         self.initLevel = initLevel
         self.lastLevelStop = lastLevelStop
         self.pureChange = pureChange
+        self.reverseStake = reverseStake
         self.stay_times = stay_times
+        self.randomStake = randomStake
+        self.recursiveStake = recursiveStake
         self.firstStake = firstStake
         self.levelType = levelType
         self.levelSteps = self.levels[levelType]
@@ -59,13 +68,20 @@ class Fifteen(Rule):
         money = self.setMoney(result)
         return (stake, money)
 
-    def setStake(self, result):
-        stake = 1
-        if result['winner_id'] == 3:
-            stake = result['stake_id']
+    def setStake(self, result={}):
+        if self.randomStake:
+            return randrange(1, 3)
         else:
-            stake = result['winner_id']
-        return stake
+            if self.recursiveStake:
+                if result['stake_id'] == 1:
+                    return 2
+                elif result['stake_id'] == 2:
+                    return 1
+            elif not self.reverseStake:
+                if result['winner_id'] == 3:
+                    return result['stake_id']
+                else:
+                    return result['winner_id']
 
     def checkIfHighestLevel(self, result):
         r = False

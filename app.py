@@ -7,6 +7,7 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty, StringProperty, BooleanProperty, ListProperty
 from kivy.config import Config
 from kivy.resources import resource_add_path
+from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 resource_add_path('./GUI/assets')
 Config.set("kivy", "keyboard_mode", 'system')
 Config.set('graphics', 'resizable', False)
@@ -17,18 +18,25 @@ Config.set('kivy', 'window_icon', 'icon.png')
 
 LabelBase.register(DEFAULT_FONT, 'PingFang.ttc')
 
-from GUI.BaccaratPlayerScreen import BaccaratPlayerScreen
+from GUI.BaccaratPlayerScreen import BaccaratPlayerScreen, RunningScreen
+Builder.load_file('./GUI/baccaratplayerscreen.kv')
+Builder.load_string('''
+ScreenManager:
+    id:sm
+''')
+sm = ScreenManager(transition=WipeTransition())
+# sm = self.root.ids.sm
+sm.add_widget(BaccaratPlayerScreen(name='setting'))
+sm.add_widget(RunningScreen(name='running'))
 
 
 class BaccaratPlayerApp(App):
     title = '百家乐模拟'
-
-    def run(self):
-        self.load_kv('./GUI/baccaratplayerscreen.kv')
-        super(BaccaratPlayerApp, self).run()
+    params = {}
 
     def build(self):
-        return BaccaratPlayerScreen()
+
+        return sm
 
     def on_pause(self):
         return True

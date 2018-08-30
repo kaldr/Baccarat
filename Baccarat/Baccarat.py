@@ -37,7 +37,7 @@ class Baccarat:
         pass
 
     def setRounds(self):
-        return randrange(65, 71)
+        return randrange(65, 80)
 
     def draw_a_card(self):
         card = self.cards[0]
