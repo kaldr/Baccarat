@@ -36,7 +36,6 @@ class PlayerExporter:
         file_dir = os.path.split(path)[0]
         if not os.path.isdir(file_dir):
             os.makedirs(file_dir)
-        print(path)
         workbook = xlsxwriter.Workbook(path)
         formatZhuang = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'blue'})
         formatXian = workbook.add_format({"font_color": 'white', 'bold': 1, 'bg_color': 'purple'})
@@ -45,15 +44,7 @@ class PlayerExporter:
         formatZhuangStake = workbook.add_format({"font_color": 'red', 'bold': 1})
         formatXianStake = workbook.add_format({"font_color": 'blue', 'bold': 1})
         formatHeStake = workbook.add_format({"font_color": 'green', 'bold': 1})
-        self.formats = {
-            'zhuang': formatZhuang,
-            'xian': formatXian,
-            'win': formatWin,
-            'lose': formatLose,
-            'zhuang_stake': formatZhuangStake,
-            'xian_stake': formatXianStake,
-            'he_stake': formatHeStake
-        }
+        self.formats = {'zhuang': formatZhuang, 'xian': formatXian, 'win': formatWin, 'lose': formatLose, 'zhuang_stake': formatZhuangStake, 'xian_stake': formatXianStake, 'he_stake': formatHeStake}
         return workbook
 
     def format_history_sheet(self, sheet, rowCount):
@@ -288,7 +279,6 @@ class PlayerExporter:
         statistic = '本局赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (win_count, lose_count, zhuang_count, xian_count, he_count)
         sheet.write(last_title_row - 1, 0, u'%s' % statistic)
 
-        total_statistic = '盈利%s，最大净赢%d，最大净输%d，赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (self.player.current_money - self.player.money, max_pure_win,
-                                                                             max_pure_lose, total_win_count, total_lose_count, total_zhuang_count,
-                                                                             total_xian_count, total_he_count)
+        total_statistic = '盈利%s，最大净赢%d，最大净输%d，赢%d局，输%d局，共有庄%d局，闲%d局，和%d局' % (self.player.current_money - self.player.money, max_pure_win, max_pure_lose, total_win_count, total_lose_count,
+                                                                             total_zhuang_count, total_xian_count, total_he_count)
         sheet.write(0, 0, u'%s' % total_statistic)

@@ -8,3 +8,5 @@ Untitled*
 .DS_Store
 Export/
 Data/
+build/
+dist/

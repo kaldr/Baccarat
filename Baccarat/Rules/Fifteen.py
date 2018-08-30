@@ -2,10 +2,7 @@ from .Rule import Rule
 
 
 class Fifteen(Rule):
-    levels = [[
-        100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3400, 3800, 4200, 4600, 5000,
-        5400, 5800, 6200, 6600, 7200, 7600, 8000
-    ]]
+    levels = [[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3400, 3800, 4200, 4600, 5000, 5400, 5800, 6200, 6600, 7200, 7600, 8000]]
 
     def __init__(
             self,
@@ -23,7 +20,8 @@ class Fifteen(Rule):
             pureChange=False,  # 净输赢达到次数才变化，默认为false，即累计输赢达到次数变化
             lowestLevelWinAndJump=[3, 3],
             highestLevelForRestartLoseTime=3,
-            stopWhenBlast=True):
+            stopWhenBlast=True,
+            **kwargs):
         """初始化方法
 
         15次打法

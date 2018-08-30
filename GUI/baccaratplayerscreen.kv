@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #:kivy 1.10.1
 #:import KivyLexer kivy.extras.highlight.KivyLexer
 #:import Factory kivy.factory.Factory
@@ -293,32 +294,6 @@
 
                     BoxLayout:
                         LeftLabel:
-                            id:lowest_level_change_win_time_label
-                            text:root.params['texts']['lowest_level_change_win_time']
-                        RoundNumberInput:
-                            disabled: root.fifteen
-                            name_id: 'lowest_level_change_win_time'
-                            id: lowest_level_change_win_time
-                            hint_text:'请输入最低档赢的次数'
-                            text:root.params['lowest_level_change_win_time']
-
-                BoxLayout:
-                    id:fifteen_n2
-                    hideable:root.fifteen
-                    orientation:"horizontal"
-                    BoxLayout:
-                        padding:[0,0,10,0]
-                        LeftLabel:
-                            id:lowest_level_change_level_label
-                            text:root.params['texts']['lowest_level_change_level']
-                        RoundNumberInput:
-                            disabled: root.fifteen
-                            id: lowest_level_change_level
-                            name_id: 'lowest_level_change_level'
-                            hint_text:'请输入最低档赢n次后跳的档'
-                            text:root.params['lowest_level_change_level']
-                    BoxLayout:
-                        LeftLabel:
                             id:jump_method_label
                             text:root.params['texts']['jump_method']
                         RoundSpinner:
@@ -327,6 +302,23 @@
                             hint_text:'输x次的计数方式'
                             text:root.params['jump_method']
                             values:root.params['values']['jump_method']
+
+                # BoxLayout:
+                #     id:fifteen_n2
+                #     hideable:root.fifteen
+                #     orientation:"horizontal"
+                    # BoxLayout:
+                    #     padding:[0,0,10,0]
+                    #     LeftLabel:
+                    #         id:lowest_level_change_level_label
+                    #         text:root.params['texts']['lowest_level_change_level']
+                    #     RoundNumberInput:
+                    #         disabled: root.fifteen
+                    #         id: lowest_level_change_level
+                    #         name_id: 'lowest_level_change_level'
+                    #         hint_text:'请输入最低档赢n次后跳的档'
+                    #         text:root.params['lowest_level_change_level']
+                    
 
         BoxLayout:
             orientation:"vertical"

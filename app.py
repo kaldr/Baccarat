@@ -1,3 +1,5 @@
+# import sys
+# sys.setdefaultencoding("utf-8")
 from kivy.app import App
 from kivy.core.text import LabelBase, DEFAULT_FONT
 # from kivy.uix.button import ButtonBase
@@ -19,7 +21,9 @@ Config.set('kivy', 'window_icon', 'icon.png')
 LabelBase.register(DEFAULT_FONT, 'PingFang.ttc')
 
 from GUI.BaccaratPlayerScreen import BaccaratPlayerScreen, RunningScreen
-Builder.load_file('./GUI/baccaratplayerscreen.kv')
+with open('./GUI/baccaratplayerscreen.kv', encoding='utf8') as f:
+    Builder.load_string(f.read())
+# Builder.load_file('./GUI/baccaratplayerscreen.kv')
 Builder.load_string('''
 ScreenManager:
     id:sm

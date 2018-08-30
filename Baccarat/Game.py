@@ -16,8 +16,7 @@ ruleDrop = Drop(stopWhenProfit=True, stopWhenProfitMoney=10000)
 ruleFifteen30000 = Fifteen(stopProfit=30000, initLevel=2)
 ruleFifteen20000 = Fifteen(stopProfit=20000, initLevel=2)
 ruleDropThree = Drop(stopWhenProfit=True, stopWhenProfitMoney=4000, lowestLevelWin3TimeJumpToLevel=1)
-ruleDropOne = Drop(
-    stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1, lowLevelWin=1, levelType=1, recursiveStake=True)
+ruleDropOne = Drop(stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1, lowLevelWin=1, levelType=1, recursiveStake=True)
 
 
 class Game:
@@ -81,10 +80,10 @@ class Play:
         #     else:
         #         play_lose += 1
         #     count += play_count
-        #     print("----------------------")
-        #     print('第%d次' % (i + 1))
-        #     print('本次盈利：%s，本次共押了%d注，押注金额为%d' % (current, play_count, stake_total))
-        #     print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster, max_pure_win, max_pure_lose))
+        print("----------------------")
+        print('第%d次' % (i + 1))
+        print('本次盈利：%s，本次共押了%d注，押注金额为%d' % (current, play_count, stake_total))
+        # print('总盈利:%s，总押注：%s，总爆掉：%s，最大净赢：%d，最大净输：%d' % (play_profit, play_stake_cost, play_buster, max_pure_win, max_pure_lose))
         # print('=====================')
         # print("%s次押注共盈利%s，共押注%d，共爆掉%d次，爆掉亏损%s，其他盈利%s，最大净赢%d，最大净输%d,赢%d次，输%d次，赢输比%.1f%%" %
         #       (count, play_profit, play_stake_cost, play_buster, burst_profit_total, no_burst_profit_total, max_pure_win_all, max_pure_lose_all,
@@ -106,8 +105,11 @@ class Play:
         player10 = Player('滴水三进三出', money=10000, rule=4, ruleObject=ruleDropThree)
         player11 = Player('滴水一进一出庄闲循环往复', money=10000, rule=4, ruleObject=ruleDropOne)
         playerFifteen = Player("递进", money=10000, rule=4, ruleObject=ruleFifteen30000)
-        playerDrop = Player('滴水', money=10000, rule=4, ruleObject=ruleDropThree)
-        return [playerDrop]
+
+        if params['play_type'] == 'drop':
+            return [Player('滴水', money=10000, rule=4, ruleObject=Drop(**params))]
+        elif params['play_type'] == 'fifteen':
+            return [Player("递进", money=10000, rule=4, ruleObject=Fifteen(**params))]
 
     def play_once(self, playTime):
         totals = [0, 0]
