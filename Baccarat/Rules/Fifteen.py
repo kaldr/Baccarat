@@ -131,15 +131,15 @@ class Fifteen(Rule):
             # 最低级没有赢足够次数、以及其他等级
             else:
                 if self.pureChange:
-                    if self.current_level_win_or_lose in [-4, -5, -6]:
+                    if self.current_level_win_or_lose in [-3, -4]:
                         self.currentRank += 1
-                        result['info'] = '本档累计输掉3次，打下一档'
-                    elif self.current_level_win_or_lose in [-7, -8, -9, -10]:
+                        result['info'] = '本档净输掉3次，打下一档'
+                    elif self.current_level_win_or_lose in [-5, -6, -7, -8]:
                         self.currentRank += 2
-                        result['info'] = '本档累计输掉5次，打+2档'
-                    elif self.current_level_win_or_lose in [-11, -12, -13, -14, -15]:
+                        result['info'] = '本档净输掉5次，打+2档'
+                    elif self.current_level_win_or_lose in [-9, -10, -11, -12, -13, -14, -15]:
                         self.currentRank += 3
-                        result['info'] = '本档累计输掉9次，打+3档'
+                        result['info'] = '本档净输掉9次，打+3档'
                     else:
                         clearFlag = False
                         result['info'] = '不变'

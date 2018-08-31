@@ -12,7 +12,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from functools import partial
-
+from random import randrange
 from kivy.lang import Builder
 
 
@@ -143,7 +143,7 @@ class BaccaratPlayerScreen(Screen):
             'jump_method': ('净输n次', '累计输n次')
         },
         'jump_method': '净输n次',
-        'output_path': '/Users/kaldr/Projects/Baccarat/Export/bbc/',
+        'output_path': 'C:\\Users\\admin1\\Desktop\\百家乐数据\\%d' % randrange(100, 10000),
         'lowest_level_change_level': '150',
         'lowest_level_change_win_time': '3',
         'stay_time': '15',
@@ -159,7 +159,7 @@ class BaccaratPlayerScreen(Screen):
         'max_levels': ('8000', '10000'),
         'type': ('滴水式', '递进式'),
         'last_level': '停止',
-        "lowest_level_win_n_and_jump_to_level": '100',
+        "lowest_level_win_n_and_jump_to_level": '50',
         'lowest_level_win_n_and_jump_to_levels': ('100', '150', '200', '250', '300')
     }
 
@@ -209,6 +209,8 @@ class BaccaratPlayerScreen(Screen):
         self.ids.jump_method.text = self.params['jump_method']
 
     def go_to_running_screen(self, *largs):
+        # self.params['output_path'] = '/Users/kaldr/Projects/Baccarat/Export/%d' % randrange(100, 10000)
+        # self.ids.output_path.text = self.params['output_path']
         self.manager.current = 'running'
 
     def build_bg_instructions(self):
@@ -320,15 +322,15 @@ class BaccaratPlayerScreen(Screen):
     def setParamsLevels(self):
         levels = []
         if self.currentPlayer == '递进式':
-            from_num = 25
+            from_num = 15
             levels = ruleFifteen30000.levels[0]
         elif self.currentPlayer == '滴水式':
-            from_num = 33
+            from_num = 10
             levels = ruleDropThree.levels[0]
-        self.params['init_levels'] = [str(level) for level in levels[0:5]]
+        self.params['init_levels'] = [str(level) for level in levels[0:15]]
         self.params['init_level'] = str(levels[0])
-        self.params['lowest_level_win_n_and_jump_to_level'] = str(levels[1])
-        self.params['lowest_level_win_n_and_jump_to_levels'] = [str(level) for level in levels[1:6]]
+        self.params['lowest_level_win_n_and_jump_to_level'] = str(levels[0])
+        self.params['lowest_level_win_n_and_jump_to_levels'] = [str(level) for level in levels[0:20]]
         self.params['max_levels'] = [str(level) for level in levels[from_num:]]
         self.params['max_level'] = str(levels[-1])
         self.ids.init_level.text = self.params['init_level']
