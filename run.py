@@ -1,7 +1,14 @@
 # import Learn.App
 # import GUI.App
-from Baccarat.Game import Game
 
+from Baccarat.Game import Play
+
+# import CV.BasicCV
+play = Play(playTime=40, roundLimit=100,
+            params={"output_path": '/Users/kaldr/Projects/Baccarat/Export/drop_with_round/',
+                    'play_type': "drop_with_round", 'stopWhenProfitMoney': 4000})
+for i in range(40):
+    play.play_baccarat(i)
 # import GUI.Mouse
 
 # from Baccarat.Baccarat import Baccarat

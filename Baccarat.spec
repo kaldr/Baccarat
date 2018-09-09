@@ -1,7 +1,6 @@
 # -*- mode: python -*-
-from kivy.deps import sdl2, glew
-block_cipher = None
 
+block_cipher = None
 
 
 a = Analysis(['app.py'],
@@ -25,11 +24,10 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           console=True )
-coll = COLLECT(exe,Tree('Z:\\Projects\\Baccarat'),
+coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
-               *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)],
                strip=False,
                upx=True,
                name='Baccarat')

@@ -15,6 +15,7 @@ class Fifteen(Rule):
             money=10000,
             stopWhenProfit=True,
             stopProfit=8000,
+            maxLevel=50,
             firstStake=1,
             lastLevelStop=True,
             pureChange=False,  # 净输赢达到次数才变化，默认为false，即累计输赢达到次数变化
@@ -38,6 +39,7 @@ class Fifteen(Rule):
         """
         Rule.__init__(self, money=money)
         self.initLevel = initLevel
+        self.maxLevel = maxLevel
         self.lastLevelStop = lastLevelStop
         self.pureChange = pureChange
         self.reverseStake = reverseStake
@@ -83,7 +85,7 @@ class Fifteen(Rule):
 
     def checkIfHighestLevel(self, result):
         r = False
-        if self.current_level_lose == self.highestLevelForRestartLoseTime and self.currentRank == len(self.levelSteps) - 1:
+        if self.current_level_lose == self.highestLevelForRestartLoseTime and self.currentRank == self.maxLevel:
             if self.stopWhenBlast:
                 result['stop'] = 1
                 result['info'] = '停止，'
@@ -121,14 +123,20 @@ class Fifteen(Rule):
         elif self.current_level_time == self.stay_times:
             clearFlag = True
             self.current_level_time = 0
-            if self.lastLevelStop and self.currentRank == len(self.levelSteps) - 1:
+            if self.lastLevelStop and self.currentRank == self.maxLevel:
                 result['stop'] = 1
                 result['info'] = '最后一级次数达到，停止'
-            # 最低级赢了足够的次数，跳级
-            elif self.currentRank == 0 and self.current_level_win == self.lowestLevelWinAndJump[0]:
-                self.currentRank = self.lowestLevelWinAndJump[1]
-                result['info'] = '最低级赢了%s次，跳级到%s级' % (self.lowestLevelWinAndJump[0], self.lowestLevelWinAndJump[1])
-            # 最低级没有赢足够次数、以及其他等级
+            # # 最低级赢了足够的次数，跳级
+            # elif self.currentRank == 0 and (self.current_level_win_or_lose >= self.lowestLevelWinAndJump[0] or self.current_level_win >= self.lowestLevelWinAndJump[0]):
+            #     if self.pureChange:
+            #         if self.current_level_win_or_lose == self.lowestLevelWinAndJump[0]:
+            #             self.currentRank = self.lowestLevelWinAndJump[1]
+            #             result['info'] = '最低级净赢了%s次，跳级到%s级' % (self.lowestLevelWinAndJump[0], self.lowestLevelWinAndJump[1])
+            #     else:
+            #         if self.current_level_win == self.lowestLevelWinAndJump[0]:
+            #             self.currentRank = self.lowestLevelWinAndJump[1]
+            #             result['info'] = '最低级赢了%s次，跳级到%s级' % (self.lowestLevelWinAndJump[0], self.lowestLevelWinAndJump[1])
+            # # 最低级没有赢足够次数、以及其他等级
             else:
                 if self.pureChange:
                     if self.current_level_win_or_lose in [-3, -4]:
@@ -169,7 +177,7 @@ class Fifteen(Rule):
                 result['info'] += '爆掉'
             else:
                 result['info'] = '仍旧打这一级'
-        if self.currentRank > len(self.levelSteps) - 1:
-            self.currentRank = len(self.levelSteps) - 1
+        if self.currentRank > self.maxLevel:
+            self.currentRank = self.maxLevel
         money = self.levelSteps[self.currentRank]
         return money

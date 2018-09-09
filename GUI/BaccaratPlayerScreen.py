@@ -1,19 +1,20 @@
-from kivy.uix.screenmanager import Screen
-from kivy.properties import NumericProperty, StringProperty, ObjectProperty, BooleanProperty, ListProperty, OptionProperty
-from kivy.uix.textinput import TextInput
-from kivy.uix.label import Label
-from Baccarat.Game import Game, ruleFifteen30000, ruleDropThree, Play
-from kivy.uix.spinner import Spinner
-from kivy.graphics.instructions import InstructionGroup
-from kivy.graphics import *
+import platform
+from datetime import datetime
+from functools import partial
+
 from kivy.app import App
-from kivy.uix.progressbar import ProgressBar
+from kivy.clock import Clock
+from kivy.graphics import *
+from kivy.properties import StringProperty, ObjectProperty, BooleanProperty, OptionProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.clock import Clock
-from functools import partial
-from random import randrange
-from kivy.lang import Builder
+from kivy.uix.label import Label
+from kivy.uix.progressbar import ProgressBar
+from kivy.uix.screenmanager import Screen
+from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
+
+from Baccarat.Game import ruleFifteen30000, ruleDropThree, Play, ruleDropWithRound
 
 
 class RoundTextInput(TextInput):
@@ -25,28 +26,32 @@ class RoundTextInput(TextInput):
         app = App.get_running_app()
 
         BaccaratPlayerScreen.params[id] = text
-        #print(BaccaratPlayerScreen.params)
+        # print(BaccaratPlayerScreen.params)
 
         if app:
             if id in ['excel_round_count', 'excel_count']:
                 try:
                     BaccaratPlayerScreen.params['texts']['bottom'] = "共模拟%d万次，导出%s个Excel，每个Excel押注%s~%s次。" % (
-                        int(BaccaratPlayerScreen.params['excel_count']) * int(BaccaratPlayerScreen.params['excel_round_count']) * 70 / 10000, BaccaratPlayerScreen.params['excel_count'],
-                        int(BaccaratPlayerScreen.params['excel_round_count']) * 65, int(BaccaratPlayerScreen.params['excel_round_count']) * 80)
+                        int(BaccaratPlayerScreen.params['excel_count']) * int(
+                            BaccaratPlayerScreen.params['excel_round_count']) * 70 / 10000,
+                        BaccaratPlayerScreen.params['excel_count'],
+                        int(BaccaratPlayerScreen.params['excel_round_count']) * 65,
+                        int(BaccaratPlayerScreen.params['excel_round_count']) * 80)
                 except Exception as e:
                     BaccaratPlayerScreen.params['texts']['bottom'] = ''
                 self.link_ob.ids.bottom_label.text = BaccaratPlayerScreen.params['texts']['bottom']
             if id in ['change_level_win_or_lose_time']:
-                BaccaratPlayerScreen.params['texts']['jump_method'] = '[递进式]输%s次跳档计算' % text
+                BaccaratPlayerScreen.params['texts']['jump_method'] = '[仅递进]输%s次跳档计算' % text
                 self.link_ob.ids.jump_method_label.text = BaccaratPlayerScreen.params['texts']['jump_method']
-                # BaccaratPlayerScreen.params['texts']['lowest_level_change_win_time'] = "[递进式]最低档赢%s次后跳到第档" % text
+                # BaccaratPlayerScreen.params['texts']['lowest_level_change_win_time'] = "[仅递进]最低档赢%s次后跳到第档" % text
                 # self.link_ob.ids.lowest_level_change_win_time_label.text = BaccaratPlayerScreen.params['texts']['lowest_level_change_win_time']
 
-                # BaccaratPlayerScreen.params['texts']['lowest_level_change_level'] = "[递进式]最低档赢%s次后跳到第x档" % text
+                # BaccaratPlayerScreen.params['texts']['lowest_level_change_level'] = "[仅递进]最低档赢%s次后跳到第x档" % text
                 # self.link_ob.ids.lowest_level_change_level_label.text = BaccaratPlayerScreen.params['texts']['lowest_level_change_level']
 
                 BaccaratPlayerScreen.params['texts']['lowest_level_win_n_and_jump_to_level'] = '最低档赢%s次后打第x档' % text
-                self.link_ob.ids.lowest_level_win_n_and_jump_to_level_label.text = BaccaratPlayerScreen.params['texts']['lowest_level_win_n_and_jump_to_level']
+                self.link_ob.ids.lowest_level_win_n_and_jump_to_level_label.text = BaccaratPlayerScreen.params['texts'][
+                    'lowest_level_win_n_and_jump_to_level']
                 BaccaratPlayerScreen.params['values']['jump_method'] = ("净输%s次" % text, "累计输%s次" % text)
                 self.link_ob.ids.jump_method.values = BaccaratPlayerScreen.params['values']['jump_method']
                 if BaccaratPlayerScreen.params['jump_method'].startswith('净'):
@@ -66,7 +71,7 @@ class RoundNumberInput(RoundTextInput):
 class RoundSpinner(Spinner):
     def set_params(self, ob, text, id):
         BaccaratPlayerScreen.params[id] = text
-        #print(BaccaratPlayerScreen.params)
+        # print(BaccaratPlayerScreen.params)
 
 
 class RunningScreen(Screen):
@@ -116,7 +121,8 @@ class RunningScreen(Screen):
         self.pb.value = 0
         self.pbl.text = '正在导出excel'
         checkResult = App.get_running_app().params
-        game = Play(params=checkResult["params"], playTime=checkResult['params']['playTime'], roundLimit=checkResult['params']['roundLimit'], ob=self, callback=self.setprogress)
+        game = Play(params=checkResult["params"], playTime=checkResult['params']['playTime'],
+                    roundLimit=checkResult['params']['roundLimit'], ob=self, callback=self.setprogress)
         Clock.schedule_once(partial(self.export_excel, game, 0, checkResult['params']['playTime']), 1)
 
 
@@ -143,7 +149,7 @@ class BaccaratPlayerScreen(Screen):
             'jump_method': ('净输n次', '累计输n次')
         },
         'jump_method': '净输n次',
-        'output_path': 'C:\\Users\\admin1\\Desktop\\百家乐数据\\%d' % randrange(100, 10000),
+        'output_path': 'C:\\Users\\admin1\\Desktop\\百家乐数据\\',
         'lowest_level_change_level': '150',
         'lowest_level_change_win_time': '3',
         'stay_time': '15',
@@ -157,7 +163,7 @@ class BaccaratPlayerScreen(Screen):
         'init_levels': ('50', '100', '150', '200', '250'),
         'max_level': "8000",
         'max_levels': ('8000', '10000'),
-        'type': ('滴水式', '递进式'),
+        'type': ('滴水式', '递进式', '五轮滴水'),
         'last_level': '停止',
         "lowest_level_win_n_and_jump_to_level": '50',
         'lowest_level_win_n_and_jump_to_levels': ('100', '150', '200', '250', '300')
@@ -181,14 +187,17 @@ class BaccaratPlayerScreen(Screen):
         # self.init_progress_bar()
 
     def build_init_params(self):
+        self.set_output_path()
         #
-        self.params['texts']['bottom'] = "共模拟%d万次，导出%s个Excel，每个Excel押注%s~%s次。" % (int(self.params['excel_count']) * int(self.params['excel_round_count']) * 70 / 10000, self.params['excel_count'],
-                                                                                  int(self.params['excel_round_count']) * 65, int(self.params['excel_round_count']) * 80)
+        self.params['texts']['bottom'] = "共模拟%d万次，导出%s个Excel，每个Excel押注%s~%s次。" % (
+            int(self.params['excel_count']) * int(self.params['excel_round_count']) * 70 / 10000,
+            self.params['excel_count'],
+            int(self.params['excel_round_count']) * 65, int(self.params['excel_round_count']) * 80)
         self.ids.bottom_label.text = self.params['texts']['bottom']
         #
         text = self.params['change_level_win_or_lose_time']
         #
-        self.params['texts']['jump_method'] = '[递进式]输%s次跳档计算' % text
+        self.params['texts']['jump_method'] = '[仅递进]输%s次跳档计算' % text
         self.ids.jump_method_label.text = self.params['texts']['jump_method']
         #
         # self.params['texts']['lowest_level_change_win_time'] = "最低档赢%s次后跳到x" % text
@@ -197,8 +206,9 @@ class BaccaratPlayerScreen(Screen):
         # self.params['texts']['lowest_level_change_level'] = "最低档赢%s次后跳到x" % text
         # self.ids.lowest_level_change_level_label.text = self.params['texts']['lowest_level_change_level']
         #
-        self.params['texts']['lowest_level_win_n_and_jump_to_level'] = '最低档赢%s次后打x' % text
-        self.ids.lowest_level_win_n_and_jump_to_level_label.text = self.params['texts']['lowest_level_win_n_and_jump_to_level']
+        self.params['texts']['lowest_level_win_n_and_jump_to_level'] = '[仅滴水]最低档赢%s次后打x' % text
+        self.ids.lowest_level_win_n_and_jump_to_level_label.text = self.params['texts'][
+            'lowest_level_win_n_and_jump_to_level']
         #
         self.params['values']['jump_method'] = ("净输%s次" % text, "累计输%s次" % text)
         if self.params['jump_method'].startswith('净'):
@@ -221,10 +231,15 @@ class BaccaratPlayerScreen(Screen):
         instruction_setting_fifteen = InstructionGroup(name='setting_fifteen')
         instruction_setting_fifteen.add(Color(1, 1, 1, 1))
         instruction_setting_fifteen.add(Rectangle(size=size, source='bg1.jpg'))
+        instruction_setting_five_round_drop = InstructionGroup(name='setting_five_round_drop')
+        instruction_setting_five_round_drop.add(Color(1, 1, 1, 1))
+        instruction_setting_five_round_drop.add(Rectangle(size=size, source='bg3.jpg'))
         instruction_setting_running = InstructionGroup(name="running")
         instruction_setting_running.add(Color(1, 1, 1, 1))
         instruction_setting_running.add(Rectangle(size=size, source='bg2.jpg'))
-        self.bg_instructions = {"setting_drop": instruction_setting_drop, "setting_fifteen": instruction_setting_fifteen, "running": instruction_setting_running}
+        self.bg_instructions = {"setting_drop": instruction_setting_drop,
+                                'setting_five_round_drop': instruction_setting_five_round_drop,
+                                "setting_fifteen": instruction_setting_fifteen, "running": instruction_setting_running}
 
     def build_bg(self, status_old):
         if self.status == 'setting':
@@ -232,15 +247,28 @@ class BaccaratPlayerScreen(Screen):
                 status_new = 'setting_drop'
             elif self.currentPlayer == '递进式':
                 status_new = 'setting_fifteen'
+            elif self.currentPlayer == '五轮滴水':
+                status_new = 'setting_five_round_drop'
         elif self.status == 'running':
             status_new = 'running'
-        old_bg_instruction = self.bg_instructions[status_old]
+        # old_bg_instruction = self.bg_instructions[status_old]
         new_bg_instruction = self.bg_instructions[status_new]
-        self.canvas.before.remove_group(status_old)
+        # self.canvas.before.remove_group(old_bg_instruction)
         self.canvas.before.add(new_bg_instruction)
 
     def run_game(self, params):
         pass
+
+    def set_output_path(self):
+        current_os = platform.system()
+        if current_os == 'Windows':
+            self.params['output_path'] = 'C:\\Users\\admin1\\Desktop\\百家乐数据\\%s_%s' % (
+                self.currentPlayer, datetime.now().strftime("%Y%m%d%H%M%S"))
+        else:
+            self.params['output_path'] = "/Users/kaldr/Projects/Baccarat/Export/%s_%s" % (
+                self.currentPlayer, datetime.now().strftime("%Y%m%d%H%M%S"))
+        self.ids.output_path.text = self.params['output_path']
+        return self.params['output_path']
 
     def build_params(self):
         params = {}
@@ -250,7 +278,11 @@ class BaccaratPlayerScreen(Screen):
             params['play_type'] = 'fifteen'
         elif self.currentPlayer == '滴水式':
             params['play_type'] = 'drop'
-        unzeroParams = ['lowest_level_change_win_time', 'stay_time', 'profit_line', 'change_level_win_or_lose_time', 'excel_round_count', 'excel_count', 'init_level', 'max_level', 'output_path']
+        elif self.currentPlayer == '五轮滴水':
+            level = ruleDropWithRound.round_types[0][0]
+            params['play_type'] = 'drop_with_round'
+        unzeroParams = ['lowest_level_change_win_time', 'stay_time', 'profit_line', 'change_level_win_or_lose_time',
+                        'excel_round_count', 'excel_count', 'init_level', 'max_level', 'output_path']
         flag = True
         for param in unzeroParams:
             if not self.params[param]:
@@ -259,7 +291,7 @@ class BaccaratPlayerScreen(Screen):
                 flag = False
 
         if flag:
-            params['output_path'] = self.params['output_path']
+            params['output_path'] = self.set_output_path()
             if self.params['stake_method'] == '出庄打闲，出闲打庄':
                 params['reverseStake'] = True
             elif self.params['stake_method'] == '随机打':
@@ -278,12 +310,15 @@ class BaccaratPlayerScreen(Screen):
             params['highestLevelForRestartLoseTime'] = int(self.params['change_level_win_or_lose_time'])
             params['stopWhenProfitMoney'] = int(self.params['profit_line'])
             params['stopWhenProfit'] = True
+            params['stopProfit'] = int(self.params['profit_line'])
             if self.params['last_level'] == "停止":
                 params['stopOnLastLevel'] = True
                 params['lastLevelStop'] = True
             if self.params['jump_method'].startswith('净'):
                 params['pureChange'] = True
-            params['lowestLevelWinAndJump'] = [int(self.params['change_level_win_or_lose_time']), level.index(int(self.params['lowest_level_win_n_and_jump_to_level']))]
+            params['maxLevel'] = level.index(int(self.params['max_level']))
+            params['lowestLevelWinAndJump'] = [int(self.params['change_level_win_or_lose_time']),
+                                               level.index(int(self.params['lowest_level_win_n_and_jump_to_level']))]
 
         return {"pass": flag, "error_info": '有信息没有输入完整，输入框的内容不能为空，也不能为0', 'params': params}
 
@@ -293,6 +328,7 @@ class BaccaratPlayerScreen(Screen):
             # self.manager['params'] = checkResult
             app = App.get_running_app()
             app.params = checkResult
+
             self.go_to_running_screen()
         else:
             self.ids.bottom_label.text = checkResult['error_info']
@@ -315,18 +351,23 @@ class BaccaratPlayerScreen(Screen):
                 # self.ids.selector.add_widget(self.fifteen_n2)
             else:
                 current_bg_status += 'fifteen'
-
+        elif player == '五轮滴水':
+            if self.currentPlayer != '五轮滴水':
+                self.currentPlayer = '五轮滴水'
         self.setParamsLevels()
+        self.set_output_path()
         self.build_bg(current_bg_status)
 
     def setParamsLevels(self):
-        levels = []
+        from_num = 0
+        levels = [50, 100, 150, 200, 300, 400, 500, 600]
         if self.currentPlayer == '递进式':
             from_num = 15
             levels = ruleFifteen30000.levels[0]
         elif self.currentPlayer == '滴水式':
             from_num = 10
             levels = ruleDropThree.levels[0]
+
         self.params['init_levels'] = [str(level) for level in levels[0:15]]
         self.params['init_level'] = str(levels[0])
         self.params['lowest_level_win_n_and_jump_to_level'] = str(levels[0])

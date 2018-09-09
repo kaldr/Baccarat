@@ -1,22 +1,27 @@
-from .Baccarat import Baccarat
-from .Round import Round
-from .Player import Player
 import functools
-print = functools.partial(print, flush=True)
-from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
-from .Rules.AlwaysXian import AlwaysXian
-from .Rules.Drop import Drop
-from .Rules.Fifteen import Fifteen
-from kivy.clock import Clock
 from functools import partial
 
+from kivy.clock import Clock
+
+from .Baccarat import Baccarat
+from .Player import Player
+from .Round import Round
+from .Rules.AlwaysXian import AlwaysXian
+from .Rules.Drop import Drop
+from .Rules.DropWithRound import DropWithRound
+from .Rules.Fifteen import Fifteen
+from .Rules.WinTwiceAndReturn import WinTwiceAndReturn
+
+print = functools.partial(print, flush=True)
 ruleWinTwiceAndReturn = WinTwiceAndReturn(maxLevel=0)
 ruleAlwaysXian = AlwaysXian(maxLevel=300)
 ruleDrop = Drop(stopWhenProfit=True, stopWhenProfitMoney=10000)
 ruleFifteen30000 = Fifteen(stopProfit=30000, initLevel=2)
 ruleFifteen20000 = Fifteen(stopProfit=20000, initLevel=2)
 ruleDropThree = Drop(stopWhenProfit=True, stopWhenProfitMoney=4000, lowestLevelWin3TimeJumpToLevel=1)
-ruleDropOne = Drop(stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1, lowLevelWin=1, levelType=1, recursiveStake=True)
+ruleDropOne = Drop(stopWhenProfit=True, stopWhenProfitMoney=6000, lowestLevelWin3TimeJumpToLevel=1, liftLevelLose=1,
+                   lowLevelWin=1, levelType=1, recursiveStake=True)
+ruleDropWithRound = DropWithRound(stopWhenProfit=True, stopWhenProfitMoney=4000)
 
 
 class Game:
@@ -51,7 +56,7 @@ class Play:
         self.callback = callback
         # self.players = self.setPlayerFromParams(params)
 
-    def play_baccarat(self, i):
+    def play_baccarat(self, i=0):
         play_win = 0
         play_lose = 0
         play_profit = 0
@@ -63,8 +68,10 @@ class Play:
         no_burst_profit_total = 0
         burst_profit_total = 0
         # for i in range(playTime):
-        (current, stake_total, buster, max_pure_win, max_pure_lose, play_count, burst_profit, no_burst_profit) = self.play_once(i)
-        Clock.schedule_once(partial(self.callback, i, self.playTime), 0)
+        (current, stake_total, buster, max_pure_win, max_pure_lose, play_count, burst_profit,
+         no_burst_profit) = self.play_once(i)
+        if self.callback:
+            Clock.schedule_once(partial(self.callback, i, self.playTime), 0)
 
         #     if max_pure_win > max_pure_win_all:
         #         max_pure_win_all = max_pure_win
@@ -110,6 +117,8 @@ class Play:
             return [Player('滴水', money=10000, rule=4, ruleObject=Drop(**params))]
         elif params['play_type'] == 'fifteen':
             return [Player("递进", money=10000, rule=4, ruleObject=Fifteen(**params))]
+        elif params['play_type'] == 'drop_with_round':
+            return [Player("五轮滴水", money=10000, rule=4, ruleObject=DropWithRound(**params))]
 
     def play_once(self, playTime):
         totals = [0, 0]
@@ -159,9 +168,9 @@ class Play:
         # print('每个玩家盈利：')
         # print(totals)
 
-        return (profit, stake_total, buster, player.max_pure_win, player.max_pure_lose, len(player.result_history), burst_profit, no_burst_profit)
+        return (profit, stake_total, buster, player.max_pure_win, player.max_pure_lose, len(player.result_history),
+                burst_profit, no_burst_profit)
 
         # print(totalWin)
 
-
-# Play(playTime=40, roundLimit=100, params={"output_path": '/Users/kaldr/Projects/Baccarat/Gameboy2/'})
+    # Play(playTime=40, roundLimit=100, params={"output_path": '/Users/kaldr/Projects/Baccarat/Gameboy2/'})
