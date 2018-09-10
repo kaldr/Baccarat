@@ -32,7 +32,7 @@ class DropWithRound(Drop):
                  stopWhenProfitMoney=0,
                  stopOnLastLevel=False,
                  recursiveStake=False,
-                 lowest_level_win_count=False,
+                 lowest_level_win_count=True,
                  first_round=0,
                  round_type=0,
                  **kwargs):
