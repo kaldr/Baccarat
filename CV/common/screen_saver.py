@@ -15,7 +15,6 @@ class ScreenSaver:
         self.compress_rate = compress_rate
         self.analyzer = screen_analyzer
 
-
     def init_save_path(self, save_path):
         if os.path.isfile(save_path):
             pass

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d1791677-4325-4691-b654-0f5291206ac3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="d1791677-4325-4691-b654-0f5291206ac3" name="Default Changelist" comment="添加计算机视觉的基础工具">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CV/common/screen_saver.py" beforeDir="false" afterPath="$PROJECT_DIR$/CV/common/screen_saver.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +59,7 @@
           <entry key="kv" value="1" />
           <entry key="md" value="1" />
           <entry key="png" value="12" />
-          <entry key="py" value="41" />
+          <entry key="py" value="45" />
           <entry key="pyi" value="1" />
           <entry key="spec" value="2" />
           <entry key="txt" value="1" />
@@ -72,7 +72,7 @@
           <entry key="Image" value="18" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="4" />
-          <entry key="Python" value="41" />
+          <entry key="Python" value="45" />
           <entry key="PythonStub" value="1" />
           <entry key="UML" value="1" />
         </counts>
@@ -80,17 +80,17 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="19" />
-          <entry key="dummy" value="1" />
+          <entry key="dummy" value="13" />
           <entry key="gitignore" value="6" />
-          <entry key="py" value="2839" />
-          <entry key="txt" value="9" />
+          <entry key="py" value="4552" />
+          <entry key="txt" value="53" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Git file" value="6" />
-          <entry key="PLAIN_TEXT" value="10" />
-          <entry key="Python" value="2858" />
+          <entry key="PLAIN_TEXT" value="66" />
+          <entry key="Python" value="4571" />
         </counts>
       </usages-collector>
     </session>
@@ -136,30 +136,54 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.51870966">
+    <splitter split-orientation="vertical" split-proportion="0.33315158">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/CV/common/utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="322">
-                  <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+                <state relative-caret-position="230">
+                  <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/run.py">
+            <entry file="file://$PROJECT_DIR$/CV/analyser/baccaratanalyser.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
-                  <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+                <state relative-caret-position="23">
+                  <caret line="1" selection-start-line="1" selection-end-line="1" />
+                  <folding>
+                    <marker date="1536618448381" expanded="true" signature="75:76" ph="..." />
+                    <marker date="1536618448381" expanded="true" signature="75:80" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Restful/api.py">
-              <provider selected="true" editor-type-id="text-editor" />
+            <entry file="file://$PROJECT_DIR$/CV/common/analyser.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="391">
+                  <caret line="17" selection-start-line="17" selection-end-line="17" />
+                  <folding>
+                    <element signature="e#0#45#0" expanded="true" />
+                    <marker date="1536620477523" expanded="true" signature="95:175" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/CV/common/config_helper.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="161">
+                  <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+                  <folding>
+                    <marker date="1536620304399" expanded="true" signature="37:42" ph="..." />
+                  </folding>
+                </state>
+              </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
@@ -185,7 +209,15 @@
           </file>
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
-              <provider selected="true" editor-type-id="text-editor" />
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="184">
+                  <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+                  <folding>
+                    <marker date="1536620702867" expanded="true" signature="30:35" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="30:2051" ph="..." />
+                  </folding>
+                </state>
+              </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
@@ -219,11 +251,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Baccarat/Rules/Drop.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="280">
-                  <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
+                <state relative-caret-position="234">
+                  <caret line="124" column="28" lean-forward="true" selection-start-line="124" selection-start-column="28" selection-end-line="124" selection-end-column="28" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
                   </folding>
@@ -248,6 +280,23 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="2231">
                   <caret line="113" column="13" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="437">
+                  <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+                  <folding>
+                    <marker date="1536620702867" expanded="true" signature="30:35" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="30:2051" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="545:687" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="931:1218" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="1452:1571" ph="..." />
+                    <marker date="1536620702867" expanded="true" signature="1645:1886" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -298,6 +347,11 @@
         <option value="$PROJECT_DIR$/CV/window/detector.py" />
         <option value="$PROJECT_DIR$/CV/common/util.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/CV/analyser/baccaratanalyser.py" />
+        <option value="$PROJECT_DIR$/CV/common/config_generator.py" />
+        <option value="$PROJECT_DIR$/CV/common/config_helper.py" />
+        <option value="$PROJECT_DIR$/CV/common/analyser.py" />
+        <option value="$PROJECT_DIR$/CV/common/screen_saver.py" />
       </list>
     </option>
   </component>
@@ -353,6 +407,12 @@
               <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
               <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
               <item name="CV" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
+              <item name="CV" type="462c0819:PsiDirectoryNode" />
+              <item name="analyser" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
@@ -493,7 +553,21 @@
       <option name="project" value="LOCAL" />
       <updated>1536536990867</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="modify gitignore">
+      <created>1536618255879</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1536618255879</updated>
+    </task>
+    <task id="LOCAL-00004" summary="添加计算机视觉的基础工具">
+      <created>1536620677808</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1536620677808</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -507,8 +581,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1080" y="-658" width="1080" height="1920" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7354839" visible="true" weight="0.19460501" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7354839" visible="true" weight="0.19460501" />
       <window_info id="Structure" order="1" sideWeight="0.25403225" side_tool="true" weight="0.2630058" />
       <window_info id="Favorites" order="2" sideWeight="0.26451612" side_tool="true" weight="0.19460501" />
       <window_info anchor="bottom" id="GitHub Reviews" weight="0.32988003" />
@@ -545,7 +620,9 @@
   <component name="VcsManagerConfiguration">
     <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
     <MESSAGE value="添加五轮滴水打法" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="modify gitignore" />
+    <MESSAGE value="添加计算机视觉的基础工具" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加计算机视觉的基础工具" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -559,9 +636,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../tensorflow/opencv/LineDetection/run.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3/argparse.pyi">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -750,9 +824,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/serve.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -789,20 +860,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CV/analyser/baccaratanalyser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <marker date="1536618448381" expanded="true" signature="75:76" ph="..." />
+            <marker date="1536618448381" expanded="true" signature="75:80" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Baccarat/Rules/Drop.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
+        <state relative-caret-position="234">
+          <caret line="124" column="28" lean-forward="true" selection-start-line="124" selection-start-column="28" selection-end-line="124" selection-end-column="28" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CV/common/analyser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+            <marker date="1536620477523" expanded="true" signature="95:175" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding>
+            <marker date="1536620702867" expanded="true" signature="30:35" ph="..." />
+            <marker date="1536620702867" expanded="true" signature="30:2051" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CV/common/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="230">
+          <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/common/config_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          <folding>
+            <marker date="1536620304399" expanded="true" signature="37:42" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
