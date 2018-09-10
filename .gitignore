@@ -6,7 +6,8 @@ __pycache__/
 *.pyc
 Untitled*
 .DS_Store
-Export/
-Data/
-build/
-dist/
+/Export/
+/Data/
+/build/
+/dist/
+.idea/inspectionProfiles/

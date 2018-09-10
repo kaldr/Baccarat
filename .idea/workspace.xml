@@ -2,64 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1791677-4325-4691-b654-0f5291206ac3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Baccarat.spec" beforeDir="false" afterPath="$PROJECT_DIR$/Baccarat.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Baccarat/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Baccarat/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Baccarat/Rules/Drop.py" beforeDir="false" afterPath="$PROJECT_DIR$/Baccarat/Rules/Drop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Baccarat/Rules/Drop_often_win.py" beforeDir="false" afterPath="$PROJECT_DIR$/Baccarat/Rules/Drop_often_win.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Baccarat/Rules/Fifteen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Baccarat/Rules/Fifteen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/baccaratplayerscreen.kv" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/baccaratplayerscreen.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Poker/Card.py" beforeDir="false" afterPath="$PROJECT_DIR$/Poker/Card.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Restuful/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/Restful/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat.old.spec" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat.old.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat.spec" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Baccarat.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Baccarat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/PlayerExporter.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/PlayerExporter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Round.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Round.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rule.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/AlwaysXian.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/AlwaysXian.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/CrossStake.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/CrossStake.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Drop.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Drop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Drop_often_win.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Drop_often_win.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Fifteen.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Fifteen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Rule.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/Rule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/WinTwiceAndReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Baccarat/Rules/WinTwiceAndReturn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Common/Console.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Common/Console.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Docker/Base/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Docker/Base/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Docker/Dev/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Docker/Dev/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/BaccaratPlayerScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/BaccaratPlayerScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/PingFang.ttc" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/PingFang.ttc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/bg2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/button_down.png" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/button_down.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/button_normal.png" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/button_normal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/assets/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/baccaratplayerscreen.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/baccaratplayerscreen.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/baccarat_player.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/baccarat_player.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/current_exporting.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/current_exporting.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/export_detail.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/export_detail.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/history.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/history.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/login.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/login.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/random_player.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/random_player.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/setting.kv" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/GUI/screens/setting.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Poker/Card.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Poker/Card.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Restuful/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Restful/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Shells/entry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Shells/entry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/Shells/winpack.sh" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/Shells/winpack.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/screen.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/screen.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/screenshot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/templates/screen.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/templates/screen.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Baccarat/watch.py" beforeDir="false" afterPath="$PROJECT_DIR$/dist/Baccarat/watch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,6 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Baccarat$util.coverage" NAME="util Coverage Results" MODIFIED="1536589571355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CV/common" />
     <SUITE FILE_PATH="coverage/Baccarat$Baccarat.coverage" NAME="Baccarat Coverage Results" MODIFIED="1536392924214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Baccarat$run.coverage" NAME="run Coverage Results" MODIFIED="1536395500674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../tensorflow/opencv/ColorDetection" />
     <SUITE FILE_PATH="coverage/Baccarat$run__1_.coverage" NAME="run (1) Coverage Results" MODIFIED="1536395738145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../tensorflow/opencv/ContourFeatures" />
@@ -90,27 +35,31 @@
     <session id="269136664">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="13" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.26" value="1" />
-          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Python/#/Users/kaldr/Projects/tensorflow/pokedex-find-screen-part-1/pyimagesearch" value="1" />
-          <entry key="jpg" value="2" />
+          <entry key="gitignore" value="1" />
+          <entry key="html" value="1" />
+          <entry key="jpg" value="6" />
           <entry key="kv" value="1" />
           <entry key="md" value="1" />
-          <entry key="png" value="11" />
-          <entry key="py" value="26" />
+          <entry key="png" value="12" />
+          <entry key="py" value="41" />
           <entry key="pyi" value="1" />
           <entry key="spec" value="2" />
           <entry key="txt" value="1" />
@@ -118,10 +67,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Image" value="13" />
+          <entry key="Git file" value="1" />
+          <entry key="HTML" value="1" />
+          <entry key="Image" value="18" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="4" />
-          <entry key="Python" value="26" />
+          <entry key="Python" value="41" />
           <entry key="PythonStub" value="1" />
           <entry key="UML" value="1" />
         </counts>
@@ -129,12 +80,17 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="19" />
-          <entry key="py" value="2427" />
+          <entry key="dummy" value="1" />
+          <entry key="gitignore" value="6" />
+          <entry key="py" value="2839" />
+          <entry key="txt" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2446" />
+          <entry key="Git file" value="6" />
+          <entry key="PLAIN_TEXT" value="10" />
+          <entry key="Python" value="2858" />
         </counts>
       </usages-collector>
     </session>
@@ -183,26 +139,11 @@
     <splitter split-orientation="vertical" split-proportion="0.51870966">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/CV/common/utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
-                  <caret line="11" column="51" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="51" />
-                  <folding>
-                    <marker date="1536496308645" expanded="true" signature="3020:3110" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Baccarat/Game.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2484">
-                  <caret line="120" column="80" selection-start-line="120" selection-start-column="67" selection-end-line="120" selection-end-column="80" />
-                  <folding>
-                    <element signature="e#0#16#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="322">
+                  <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
                 </state>
               </provider>
             </entry>
@@ -210,33 +151,79 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/run.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="184">
-                  <caret line="8" column="78" selection-start-line="8" selection-start-column="78" selection-end-line="8" selection-end-column="78" />
+                <state relative-caret-position="253">
+                  <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Restful/api.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CV/BasicCV.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="692">
-                  <caret line="276" column="34" selection-start-line="276" selection-start-column="34" selection-end-line="276" selection-end-column="34" />
+                <state relative-caret-position="460">
+                  <caret line="22" selection-start-line="22" selection-end-line="22" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CV/window/detector.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="115">
+                  <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
                   <folding>
-                    <element signature="e#0#15#0" expanded="true" />
+                    <marker date="1536589076405" expanded="true" signature="15:20" ph="..." />
                   </folding>
                 </state>
               </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/serve.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/playground.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/detector.py">
+              <provider selected="true" editor-type-id="text-editor" />
             </entry>
           </file>
         </leaf>
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="782">
+                  <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+                  <folding>
+                    <marker date="1536583130230" expanded="true" signature="3019:3109" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Baccarat/Rules/Drop.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="112" column="37" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
+                <state relative-caret-position="280">
+                  <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
                   </folding>
@@ -259,11 +246,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2599">
+                <state relative-caret-position="2231">
                   <caret line="113" column="13" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#0#15#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -304,8 +288,16 @@
         <option value="$PROJECT_DIR$/Baccarat/Rules/Drop.py" />
         <option value="$PROJECT_DIR$/Baccarat/Game.py" />
         <option value="$PROJECT_DIR$/run.py" />
-        <option value="$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py" />
         <option value="$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py" />
+        <option value="$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py" />
+        <option value="$PROJECT_DIR$/CV/baccarat/screen/login.py" />
+        <option value="$PROJECT_DIR$/CV/baccarat/screen/play.py" />
+        <option value="$PROJECT_DIR$/CV/baccarat/screen/confirm.py" />
+        <option value="$PROJECT_DIR$/CV/baccarat/screen/playground.py" />
+        <option value="$PROJECT_DIR$/CV/baccarat/screen/detector.py" />
+        <option value="$PROJECT_DIR$/CV/window/detector.py" />
+        <option value="$PROJECT_DIR$/CV/common/util.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -338,6 +330,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -359,19 +352,37 @@
             <path>
               <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
               <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
+              <item name="CV" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
+              <item name="CV" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
+              <item name="CV" type="462c0819:PsiDirectoryNode" />
+              <item name="window" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Baccarat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Baccarat" type="462c0819:PsiDirectoryNode" />
               <item name="GUI" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="HOTFIX_customHotfixCommitMessage_text" value="Tagging hotfix %name%" />
+    <property name="RELEASE_customTagCommitMessage_text" value="Tagging version %name%" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -385,7 +396,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Flask server.Baccarat">
+  <component name="RunManager" selected="Python.util">
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="tensorflow" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -400,6 +411,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../tensorflow/opencv/ColorDetection/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="util" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Baccarat" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/CV/common" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CV/common/utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -426,9 +459,11 @@
     <list>
       <item itemvalue="Flask server.Baccarat" />
       <item itemvalue="Python.run" />
+      <item itemvalue="Python.util" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.util" />
         <item itemvalue="Python.run" />
       </list>
     </recent_temporary>
@@ -444,6 +479,21 @@
       <option name="presentableId" value="Default" />
       <updated>1536392206955</updated>
     </task>
+    <task id="LOCAL-00001" summary="添加五轮滴水打法">
+      <created>1536536963580</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1536536963580</updated>
+    </task>
+    <task id="LOCAL-00002" summary="添加五轮滴水打法">
+      <created>1536536990867</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1536536990867</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -458,22 +508,25 @@
   <component name="ToolWindowManager">
     <frame x="-1080" y="-658" width="1080" height="1920" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7354839" visible="true" weight="0.19460501" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7354839" visible="true" weight="0.19460501" />
       <window_info id="Structure" order="1" sideWeight="0.25403225" side_tool="true" weight="0.2630058" />
       <window_info id="Favorites" order="2" sideWeight="0.26451612" side_tool="true" weight="0.19460501" />
+      <window_info anchor="bottom" id="GitHub Reviews" weight="0.32988003" />
+      <window_info anchor="bottom" id="GitLabIntegration" weight="0.32988003" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32918918" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32878953" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.019823788" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.1308615" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.15485278" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.15866958" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.46242774" side_tool="true" weight="0.174482" />
       <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.53757226" weight="0.10087241" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Git Scope" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -489,6 +542,11 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
+    <MESSAGE value="添加五轮滴水打法" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -501,24 +559,11 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CV/BasicCV.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../tensorflow/opencv/LineDetection/run.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3/argparse.pyi">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CV/2.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CV/1.jpg">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Baccarat.standard.spec">
       <provider selected="true" editor-type-id="text-editor" />
@@ -592,9 +637,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CV/assets/Capto_Capture 2018-08-23_06-56-53_PM.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/CV/assets/Capto_Capture 2018-08-23_06-57-24_PM.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -641,39 +683,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="51" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="51" />
-          <folding>
-            <marker date="1536496308645" expanded="true" signature="3020:3110" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Baccarat/Game.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2484">
           <caret line="120" column="80" selection-start-line="120" selection-start-column="67" selection-end-line="120" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/2.jpg" />
+    <entry file="file://$PROJECT_DIR$/CV/c.jpg" />
+    <entry file="file://$PROJECT_DIR$/CV/b.jpg" />
+    <entry file="file://$PROJECT_DIR$/CV/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/CV/matchTemplate.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/login.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/play.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/confirm.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/assets/Capto_Capture 2018-08-23_06-56-53_PM.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="78" selection-start-line="8" selection-start-column="78" selection-end-line="8" selection-end-column="78" />
+        <state relative-caret-position="253">
+          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Baccarat/Rules/Drop.py">
+    <entry file="file://$PROJECT_DIR$/Restful/api.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/BasicCV.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="112" column="37" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
+        <state relative-caret-position="460">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/window/detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <marker date="1536589076405" expanded="true" signature="15:20" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/common/screen_saver.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serve.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/playground.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/baccarat/screen/detector.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Baccarat/Rules/DropWithRound.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+          <folding>
+            <marker date="1536583130230" expanded="true" signature="3019:3109" ph="..." />
           </folding>
         </state>
       </provider>
@@ -690,11 +784,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/BaccaratPlayerScreen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2599">
+        <state relative-caret-position="2231">
           <caret line="113" column="13" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Baccarat/Rules/Drop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CV/common/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
