@@ -10,9 +10,8 @@ class ScreenSaver:
         :param compress_rate: 截图的压缩比例
         :param screen_analyzer: 截图分析器
         """
-        self.save_path = self.init_save_path(save_path)
-        self.capture_interval = capture_interval
-        self.compress_rate = compress_rate
+        self.save_path, self.compress_rate, self.capture_interval = self.init_input(save_path, compress_rate,
+                                                                                    capture_interval)
         self.analyzer = screen_analyzer
 
     def init_save_path(self, save_path):
@@ -20,6 +19,7 @@ class ScreenSaver:
             pass
         elif os.path.isdir(save_path):
             pass
+
         return save_path
 
     def init_input(self, save_path=None, compress_rate=None, capture_interval=None):
@@ -30,12 +30,7 @@ class ScreenSaver:
         :param capture_interval:
         :return:
         """
-        if not save_path:
-            save_path = self.save_path
-        if not capture_interval:
-            capture_interval = self.capture_interval
-        if not compress_rate:
-            compress_rate = self.compress_rate
+        save_path = self.init_save_path(save_path)
         return save_path, compress_rate, capture_interval
 
     def auto_capture(self, save_path=None, capture_interval=None, compress_rate=None):
